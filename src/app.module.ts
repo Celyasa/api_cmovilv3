@@ -8,6 +8,7 @@ import { DatabaseModule } from './database/database.module';
 import { UsrcmovilModule } from './modules/usrcmovil/usrcmovil.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ClienteModule } from './modules/cliente/cliente.module';
+import { ProductoModule } from './modules/producto/producto.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ClienteModule } from './modules/cliente/cliente.module';
     AuthModule,
     UsrcmovilModule,
     ClienteModule,
+    ProductoModule,
   ],
   controllers: [],
   providers: [],

@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('/api/helpdesk');
+  app.setGlobalPrefix('/api/cmovilv3');
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: false,
