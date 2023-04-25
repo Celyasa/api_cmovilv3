@@ -16,7 +16,7 @@ async function bootstrap() {
 
   const configSwagger = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Api Cmovil V3')
+    .setTitle('API Cmovil V3')
     .setDescription('Endpoints para el Cmovil V3')
     .setVersion('1.0')
     .build();

@@ -4,6 +4,9 @@ import { Repository } from 'typeorm';
 import { Producto } from './entities/producto.entity';
 import { plainToInstance } from 'class-transformer';
 import { getProductoAutoventaDto } from './dto/getProductoAutoventa.dto';
+import { postCPedidoInsertarDto } from './dto/postCPedidoInsertar.dto';
+import { postDPedidoInsertarDto } from './dto/postDPedidoInsertar.dto';
+import { log } from 'console';
 
 @Injectable()
 export class ProductoService {
@@ -30,6 +33,44 @@ export class ProductoService {
         throw new HttpException('No existe productos', HttpStatus.BAD_REQUEST);
       }
     } catch (error) {
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async insertarPedidoCcomproba(cPedido: postCPedidoInsertarDto) {
+    try {
+      const insertProductos = await this._clienteService.query(
+        `select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${cPedido.lqAut})) as codLQ from dual`,
+      );
+      if (insertProductos[0].CODLQ == -1) {
+        throw new HttpException(
+          'No se pudo registrar el Ccomproba',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        return { codLQ: insertProductos[0].CODLQ };
+      }
+    } catch (error) {
+      console.log('ERROR insertarPedidoCcomproba -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async insertarPedidoDFactura(dPedido: postDPedidoInsertarDto) {
+    try {
+      const insertarDPedido = await this._clienteService.query(
+        `select AST_SELLERMOVIL_2.insertaDetPedRec(${dPedido.codLQ}, ${dPedido.proSecuencia}, ${dPedido.proCodigo}, ${dPedido.proCantidad}) as OK from dual `,
+      );
+      if (insertarDPedido[0].OK == -1) {
+        throw new HttpException(
+          'No se pudo registrar la dPedido',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        return insertarDPedido[0];
+      }
+    } catch (error) {
+      console.log('insertarPedidoDFactura -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
