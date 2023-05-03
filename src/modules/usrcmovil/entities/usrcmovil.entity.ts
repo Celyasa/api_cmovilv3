@@ -65,4 +65,13 @@ export class Usrcmovil {
 
   @Column('varchar2', { name: 'UCM_PATH' })
   ucmPath: string;
+
+  @Column('integer', { name: 'UCM_MODULO' })
+  ucmModulo: number;
+
+  @Column('integer', { name: 'UCM_INACTIVO' })
+  ucmInactivo: number;
+
+  @Column('integer', { name: 'UCM_SIN_AGENTE' })
+  ucmSinAgente: number;
 }

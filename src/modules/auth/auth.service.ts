@@ -35,10 +35,10 @@ export class AuthService {
     if (!usrcmovil) {
       throw new NotFoundException('El usuario no existe');
     }
-    // if (usrcmovil.usrInactivo == 1) {
-    //   throw new NotFoundException('El usuario ha sido dado de baja');
-    // }
-    const isMatch = await compare(ucmId, usrcmovil.ucmId);
+    if (usrcmovil.ucmInactivo == 1) {
+      throw new NotFoundException('El usuario ha sido dado de baja');
+    }
+
     if (ucmId != usrcmovil.ucmId) {
       throw new UnauthorizedException('Datos Incorrectos');
     }
@@ -56,6 +56,8 @@ export class AuthService {
       ucmNuevaVersion: usrcmovil.ucmNuevaVersion,
       ucmServidor: usrcmovil.ucmServidor,
       ucmVersion: usrcmovil.ucmVersion,
+      ucmInactivo: usrcmovil.ucmInactivo,
+      ucmModulo: usrcmovil.ucmModulo,
     };
 
     console.log(payload);

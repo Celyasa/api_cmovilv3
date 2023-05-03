@@ -7,6 +7,13 @@ export interface IJwtPayload {
   ucmVersion: string;
   ucmNuevaVersion: String;
   ucmEmpresa: number;
+
+  //Para tener acceso a la configuracion para el Telefono 0:Activo-1:Inactivo
   ucmConfigura: number;
-  // ucmClave: string;
+
+  //Para ver si es Autoventa o Preventa
+  ucmModulo: number;
+
+  //Verificar si es activo
+  ucmInactivo: number;
 }

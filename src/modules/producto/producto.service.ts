@@ -20,7 +20,7 @@ export class ProductoService {
       const obtenerProductos = await this._clienteService.query(
         `select distinct pro_codigo, pro_id, pro_nombre,pro_stock, 
         gpr_id, pro_peso
-        from sellerm2.v_movil_producto 
+        from sellerm2.v_movil_producto_recarga 
         where ugp_usuario = ${ucmCodigo} 
         and pro_empresa = 2
         and pro_stock > 0
