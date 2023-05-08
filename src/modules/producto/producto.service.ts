@@ -23,7 +23,7 @@ export class ProductoService {
         from sellerm2.v_movil_producto_recarga 
         where ugp_usuario = ${ucmCodigo} 
         and pro_empresa = 2
-        and pro_stock > 0
+        and (pro_stock > 0 OR pro_combo =1)
         order by pro_id `,
       );
       if (obtenerProductos.length > 0) {
