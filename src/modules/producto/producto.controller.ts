@@ -39,4 +39,8 @@ export class ProductoController {
       _postDPedidoInsertarDto,
     );
   }
+  @Get('/escribir/archivo')
+  async obtenerClientesAutoventa() {
+    return await this.productoService.leerArchivo();
+  }
 }

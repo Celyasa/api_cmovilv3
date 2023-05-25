@@ -1,0 +1,35 @@
+idIdentificador:2665884173 cPedido:8450000000000000000015877843 
+codLQ:2665884173 proSecuencia:1 proCodigo:10060785 proCantidad:4 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064817 proCantidad:4 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064699 proCantidad:12 
+codLQ:2665884173 proSecuencia:1 proCodigo:10060015 proCantidad:6 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064698 proCantidad:24 
+codLQ:2665884173 proSecuencia:1 proCodigo:10049517 proCantidad:2 
+codLQ:2665884173 proSecuencia:1 proCodigo:10045938 proCantidad:48 
+codLQ:2665884173 proSecuencia:1 proCodigo:10061026 proCantidad:24 
+codLQ:2665884173 proSecuencia:1 proCodigo:10061184 proCantidad:12 
+idIdentificador:2665884173 cPedido:8450000000000000000015877843 
+codLQ:2665884173 proSecuencia:1 proCodigo:10060785 proCantidad:4 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064817 proCantidad:4 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064699 proCantidad:12 
+codLQ:2665884173 proSecuencia:1 proCodigo:10060015 proCantidad:6 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064698 proCantidad:24 
+codLQ:2665884173 proSecuencia:1 proCodigo:10049517 proCantidad:2 
+codLQ:2665884173 proSecuencia:1 proCodigo:10045938 proCantidad:48 
+codLQ:2665884173 proSecuencia:1 proCodigo:10061026 proCantidad:24 
+codLQ:2665884173 proSecuencia:1 proCodigo:10061184 proCantidad:12 
+idIdentificador:2665884173 cPedido:8450000000000000000015877843 
+codLQ:2665884173 proSecuencia:1 proCodigo:10060785 proCantidad:4 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064817 proCantidad:4 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064699 proCantidad:12 
+codLQ:2665884173 proSecuencia:1 proCodigo:10060015 proCantidad:6 
+codLQ:2665884173 proSecuencia:1 proCodigo:10064698 proCantidad:24 
+codLQ:2665884173 proSecuencia:1 proCodigo:10049517 proCantidad:2 
+codLQ:2665884173 proSecuencia:1 proCodigo:10045938 proCantidad:48 
+codLQ:2665884173 proSecuencia:1 proCodigo:10061026 proCantidad:24 
+codLQ:2665884173 proSecuencia:1 proCodigo:10061184 proCantidad:12 select AST_SELLERMOVIL_2.insertaDetPedRec(26500000000000000000015924876, 1, 10066920, 12) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(26500000000000000000015924876, 1, 10066920, 12) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(26500000000000000000015924876, 1, 10066920, 12) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(26500000000000000000015924876, 1, 10066920, 12) as OK from dual
+idIdentificador:22014814334,lqAut:8450000000000000000015877843)
+select AST_SELLERMOVIL_2.insertaDetPedRec(22014814334, 1, 10066920, 12) as OK from dual

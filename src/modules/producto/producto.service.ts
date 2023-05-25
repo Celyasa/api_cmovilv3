@@ -6,7 +6,7 @@ import { plainToInstance } from 'class-transformer';
 import { getProductoAutoventaDto } from './dto/getProductoAutoventa.dto';
 import { postCPedidoInsertarDto } from './dto/postCPedidoInsertar.dto';
 import { postDPedidoInsertarDto } from './dto/postDPedidoInsertar.dto';
-import { log } from 'console';
+import * as fs from 'fs';
 
 @Injectable()
 export class ProductoService {
@@ -28,7 +28,6 @@ export class ProductoService {
       );
       if (obtenerProductos.length > 0) {
         return plainToInstance(getProductoAutoventaDto, obtenerProductos);
-        return obtenerProductos;
       } else {
         throw new HttpException('No existe productos', HttpStatus.BAD_REQUEST);
       }
@@ -39,17 +38,29 @@ export class ProductoService {
 
   async insertarPedidoCcomproba(cPedido: postCPedidoInsertarDto) {
     try {
-      const insertProductos = await this._clienteService.query(
-        `select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${cPedido.lqAut})) as codLQ from dual`,
-      );
-      if (insertProductos[0].CODLQ == -1) {
-        throw new HttpException(
-          'No se pudo registrar el Ccomproba',
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        return { codLQ: insertProductos[0].CODLQ };
-      }
+      let num1 = Math.floor(Math.random() * 2000);
+      let num2 = Math.floor(Math.random() * 1000);
+      let num3 = Math.floor(Math.random() * 500);
+      let num4 = Math.floor(Math.random() * 100);
+      let respuesta = String(num1) + String(num2) + String(num3) + String(num4);
+      let data = `idIdentificador:${respuesta},lqAut:${cPedido.lqAut}`;
+      // let sql = `idIdentificador:${respuesta}:select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${cPedido.lqAut})) as codLQ from dual`;
+      this.escribirArchivo(data);
+      return {
+        codLQ: respuesta,
+      };
+
+      // const insertProductos = await this._clienteService.query(
+      //   `select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${cPedido.lqAut})) as codLQ from dual`,
+      // );
+      // if (insertProductos[0].CODLQ == -1) {
+      //   throw new HttpException(
+      //     'No se pudo registrar el Ccomproba',
+      //     HttpStatus.BAD_REQUEST,
+      //   );
+      // } else {
+      //   return { codLQ: insertProductos[0].CODLQ };
+      // }
     } catch (error) {
       console.log('ERROR insertarPedidoCcomproba -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
@@ -58,19 +69,76 @@ export class ProductoService {
 
   async insertarPedidoDFactura(dPedido: postDPedidoInsertarDto) {
     try {
-      const insertarDPedido = await this._clienteService.query(
-        `select AST_SELLERMOVIL_2.insertaDetPedRec(${dPedido.codLQ}, ${dPedido.proSecuencia}, ${dPedido.proCodigo}, ${dPedido.proCantidad}) as OK from dual `,
-      );
-      if (insertarDPedido[0].OK == -1) {
-        throw new HttpException(
-          'No se pudo registrar la dPedido',
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        return insertarDPedido[0];
-      }
+      let sql = `select AST_SELLERMOVIL_2.insertaDetPedRec(${dPedido.codLQ}, ${dPedido.proSecuencia}, ${dPedido.proCodigo}, ${dPedido.proCantidad}) as OK from dual`;
+      this.escribirArchivo(sql);
+      return {
+        OK: 1,
+      };
+      // const insertarDPedido = await this._clienteService.query(
+      //   `select AST_SELLERMOVIL_2.insertaDetPedRec(${dPedido.codLQ}, ${dPedido.proSecuencia}, ${dPedido.proCodigo}, ${dPedido.proCantidad}) as OK from dual `,
+      // );
+      // if (insertarDPedido[0].OK == -1) {
+      //   throw new HttpException(
+      //     'No se pudo registrar la dPedido',
+      //     HttpStatus.BAD_REQUEST,
+      //   );
+      // } else {
+      //   return insertarDPedido[0];
+      // }
     } catch (error) {
       console.log('insertarPedidoDFactura -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async escribirArchivo(entrada: String) {
+    try {
+      let text = fs.appendFileSync('my_ttexto.txt', entrada + '\n');
+      // let lectura = fs.readFileSync('my_ttexto.txt', 'utf-8');
+      // const wordList = lectura.split('\r\n');
+      // console.log(wordList);
+      return { ok: 'OK' };
+    } catch (error) {
+      console.log('escribirArchivo -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async leerArchivo() {
+    try {
+      let lectura = fs.readFileSync('my_ttexto.txt', 'utf-8');
+      let eliminaEspacio = lectura.trim();
+
+      // let lista = eliminaEspacio.split(',');
+
+      // for (let index = 0; index < lista.length; index++) {
+      //   const element = lista[index];
+      //   let data = element.split(':');
+      //   // console.log(data[0]);
+
+      //   // if (data[0] === 'idIdentificador') {
+      //   // } else {
+      //   //   console.log(data);
+      //   // }
+
+      //   // console.log(data[1]);
+      // }
+
+      // const wordList = eliminaEspacio.split('\r\n');
+      // console.log(wordList);
+      // for (let index = 0; index < wordList.length; index++) {
+      //   const element = wordList[index];
+      //   console.log(element.split(':'));
+
+      //   let identificador = element.split(':');
+      //   for (let index = 0; index < identificador.length; index++) {
+      //     const data = identificador[index];
+      //     console.log(data);
+      //   }
+      // }
+      return { ok: 'OK' };
+    } catch (error) {
+      console.log('escribirArchivo -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
