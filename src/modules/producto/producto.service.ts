@@ -106,36 +106,50 @@ export class ProductoService {
 
   async leerArchivo() {
     try {
+      let listaCabecera = [];
+      let listaDetalle = [];
+      const cabecera = { idIdentificador: '', lqAut: '' };
+      const detalle = {
+        codLQ: '',
+        proSecuencia: '',
+        proCodigo: '',
+        proCantidad: '',
+      };
       let lectura = fs.readFileSync('my_ttexto.txt', 'utf-8');
-      let eliminaEspacio = lectura.trim();
+      let data = lectura.split('\n');
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index].split(',');
+        for (let index = 0; index < element.length; index++) {
+          const data = element[index];
+          let resultado = data.split(':');
+          if (resultado[0] === 'idIdentificador') {
+            cabecera.idIdentificador = resultado[1];
+          }
+          if (resultado[0] === 'lqAut') {
+            cabecera.lqAut = resultado[1];
+            listaCabecera.push(cabecera);
+          }
+          if (resultado[0] === 'codLQ') {
+            detalle.codLQ = resultado[1];
+            listaCabecera.push(cabecera);
+          }
+          if (resultado[0] === 'proSecuencia') {
+            detalle.proSecuencia = resultado[1];
+            listaCabecera.push(cabecera);
+          }
+          if (resultado[0] === 'proCodigo') {
+            detalle.proCodigo = resultado[1];
+            listaCabecera.push(cabecera);
+          }
+          if (resultado[0] === 'proCantidad') {
+            detalle.proCantidad = resultado[1];
+            listaDetalle.push(detalle);
+          }
+        }
+      }
+      console.log(listaCabecera);
+      console.log(listaDetalle);
 
-      // let lista = eliminaEspacio.split(',');
-
-      // for (let index = 0; index < lista.length; index++) {
-      //   const element = lista[index];
-      //   let data = element.split(':');
-      //   // console.log(data[0]);
-
-      //   // if (data[0] === 'idIdentificador') {
-      //   // } else {
-      //   //   console.log(data);
-      //   // }
-
-      //   // console.log(data[1]);
-      // }
-
-      // const wordList = eliminaEspacio.split('\r\n');
-      // console.log(wordList);
-      // for (let index = 0; index < wordList.length; index++) {
-      //   const element = wordList[index];
-      //   console.log(element.split(':'));
-
-      //   let identificador = element.split(':');
-      //   for (let index = 0; index < identificador.length; index++) {
-      //     const data = identificador[index];
-      //     console.log(data);
-      //   }
-      // }
       return { ok: 'OK' };
     } catch (error) {
       console.log('escribirArchivo -->' + error);

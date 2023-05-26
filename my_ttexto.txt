@@ -1,0 +1,16 @@
+idIdentificador:151237449693youno,lqAut:42500000000000000000015923029uno
+codLQ:151237449693,proSecuencia:1,proCodigo:10055217,proCantidad:24
+codLQ:151237449693,proSecuencia:2,proCodigo:10053281,proCantidad:60
+codLQ:151237449693,proSecuencia:4,proCodigo:10061438,proCantidad:12
+codLQ:151237449693,proSecuencia:6,proCodigo:10055218,proCantidad:24
+codLQ:151237449693,proSecuencia:3,proCodigo:10056821,proCantidad:30
+codLQ:151237449693,proSecuencia:5,proCodigo:10061437,proCantidad:12
+codLQ:151237449693,proSecuencia:7,proCodigo:10055219,proCantidad:24
+idIdentificador:1231243124432dos,lqAut:425000000000000000222215923029dos
+codLQ:1231243124432,proSecuencia:1,proCodigo:10055217,proCantidad:24
+codLQ:1231243124432,proSecuencia:2,proCodigo:10053281,proCantidad:60
+codLQ:1231243124432,proSecuencia:4,proCodigo:10061438,proCantidad:12
+codLQ:1231243124432,proSecuencia:6,proCodigo:10055218,proCantidad:24
+codLQ:1231243124432,proSecuencia:3,proCodigo:10056821,proCantidad:30
+codLQ:1231243124432,proSecuencia:5,proCodigo:10061437,proCantidad:12
+codLQ:1231243124432,proSecuencia:7,proCodigo:10055219,proCantidad:24
