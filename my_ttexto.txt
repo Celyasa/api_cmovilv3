@@ -1,16 +1,19 @@
-idIdentificador:151237449693youno,lqAut:42500000000000000000015923029uno
-codLQ:151237449693,proSecuencia:1,proCodigo:10055217,proCantidad:24
-codLQ:151237449693,proSecuencia:2,proCodigo:10053281,proCantidad:60
-codLQ:151237449693,proSecuencia:4,proCodigo:10061438,proCantidad:12
-codLQ:151237449693,proSecuencia:6,proCodigo:10055218,proCantidad:24
-codLQ:151237449693,proSecuencia:3,proCodigo:10056821,proCantidad:30
-codLQ:151237449693,proSecuencia:5,proCodigo:10061437,proCantidad:12
-codLQ:151237449693,proSecuencia:7,proCodigo:10055219,proCantidad:24
-idIdentificador:1231243124432dos,lqAut:425000000000000000222215923029dos
-codLQ:1231243124432,proSecuencia:1,proCodigo:10055217,proCantidad:24
-codLQ:1231243124432,proSecuencia:2,proCodigo:10053281,proCantidad:60
-codLQ:1231243124432,proSecuencia:4,proCodigo:10061438,proCantidad:12
-codLQ:1231243124432,proSecuencia:6,proCodigo:10055218,proCantidad:24
-codLQ:1231243124432,proSecuencia:3,proCodigo:10056821,proCantidad:30
-codLQ:1231243124432,proSecuencia:5,proCodigo:10061437,proCantidad:12
-codLQ:1231243124432,proSecuencia:7,proCodigo:10055219,proCantidad:24
+idIdentificador:185533038784,lqAut:42500000000000000000015925855
+select AST_SELLERMOVIL_2.insertaDetPedRec(185533038784, 1, 10053281, 60) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(185533038784, 4, 10061437, 24) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(185533038784, 3, 10061438, 24) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(185533038784, 2, 10056821, 30) as OK from dual
+idIdentificador:75917815682,lqAut:26500000000000000000015925388
+select AST_SELLERMOVIL_2.insertaDetPedRec(75917815682, 1, 10040139, 360) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(75917815682, 2, 10040140, 180) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(75917815682, 3, 10036575, 240) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(75917815682, 4, 10037316, 240) as OK from dual
+idIdentificador:1908713121,lqAut:26500000000000000000015925347
+select AST_SELLERMOVIL_2.insertaDetPedRec(1908713121, 1, 10047735, 24) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(1908713121, 2, 10063695, 36) as OK from dual
+idIdentificador:19775512746,lqAut:8450000000000000000015921475
+select AST_SELLERMOVIL_2.insertaDetPedRec(19775512746, 1, 10065502, 600) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(19775512746, 2, 10065500, 360) as OK from dual
+idIdentificador:16254137064,lqAut:8450000000000000000015921475
+select AST_SELLERMOVIL_2.insertaDetPedRec(16254137064, 1, 10065502, 600) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(16254137064, 2, 10065500, 240) as OK from dual

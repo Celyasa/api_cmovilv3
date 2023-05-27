@@ -106,53 +106,94 @@ export class ProductoService {
 
   async leerArchivo() {
     try {
-      let listaCabecera = [];
-      let listaDetalle = [];
-      const cabecera = { idIdentificador: '', lqAut: '' };
-      const detalle = {
-        codLQ: '',
-        proSecuencia: '',
-        proCodigo: '',
-        proCantidad: '',
-      };
+      let listaData = [];
       let lectura = fs.readFileSync('my_ttexto.txt', 'utf-8');
       let data = lectura.split('\n');
       for (let index = 0; index < data.length; index++) {
-        const element = data[index].split(',');
-        for (let index = 0; index < element.length; index++) {
-          const data = element[index];
-          let resultado = data.split(':');
-          if (resultado[0] === 'idIdentificador') {
-            cabecera.idIdentificador = resultado[1];
-          }
-          if (resultado[0] === 'lqAut') {
-            cabecera.lqAut = resultado[1];
-            listaCabecera.push(cabecera);
-          }
-          if (resultado[0] === 'codLQ') {
-            detalle.codLQ = resultado[1];
-            listaCabecera.push(cabecera);
-          }
-          if (resultado[0] === 'proSecuencia') {
-            detalle.proSecuencia = resultado[1];
-            listaCabecera.push(cabecera);
-          }
-          if (resultado[0] === 'proCodigo') {
-            detalle.proCodigo = resultado[1];
-            listaCabecera.push(cabecera);
-          }
-          if (resultado[0] === 'proCantidad') {
-            detalle.proCantidad = resultado[1];
-            listaDetalle.push(detalle);
-          }
+        const element = data[index];
+        var json = JSON.parse('{' + element + '}');
+        listaData.push(json);
+      }
+      var comp = '';
+      let codLq = undefined;
+      let dPed = undefined;
+      for (let index = 0; index < listaData.length; index++) {
+        const element = listaData[index];
+        if (element.idIdentificador > 0 && element.lqAut > 0) {
+          comp = element.idIdentificador;
+          //llamar a insertar cInsertar
+          codLq = await this.insertarPedidoCcomprobaAux(element.lqAut);
+        }
+        if (comp == element.codLQ) {
+          if (codLq != null && codLq > 0)
+            dPed = await this.insertarPedidoDFacturaAux(
+              codLq.codLQ,
+              element.proSecuencia,
+              element.proCodigo,
+              element.proCantidad,
+            );
+          //Llamar a dinsertar
         }
       }
-      console.log(listaCabecera);
-      console.log(listaDetalle);
 
-      return { ok: 'OK' };
+      return dPed;
     } catch (error) {
-      console.log('escribirArchivo -->' + error);
+      console.log('leerArchivo -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async insertarPedidoCcomprobaAux(lqAut: string) {
+    try {
+      const insertProductos = await this._clienteService.query(
+        `select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${lqAut})) as codLQ from dual`,
+      );
+      if (insertProductos[0].CODLQ == -1) {
+        throw new HttpException(
+          'No se pudo registrar el Ccomproba',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        return { codLQ: insertProductos[0].CODLQ };
+      }
+
+      // let num1 = Math.floor(Math.random() * 2000);
+      // let num2 = Math.floor(Math.random() * 1000);
+      // let num3 = Math.floor(Math.random() * 500);
+      // let num4 = Math.floor(Math.random() * 100);
+      // let respuesta = String(num1) + String(num2) + String(num3) + String(num4);
+      // return { codLQ: respuesta };
+    } catch (error) {
+      console.log('ERROR insertarPedidoCcomprobaAux -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async insertarPedidoDFacturaAux(
+    codLQ: string,
+    proSecuencia: number,
+    proCodigo: number,
+    proCantidad: number,
+  ) {
+    try {
+      // let sql = `select AST_SELLERMOVIL_2.insertaDetPedRec(${codLQ}, ${proSecuencia}, ${proCodigo}, ${proCantidad}) as OK from dual`;
+      // console.log(sql);
+      // return {
+      //   OK: 1,
+      // };
+      const insertarDPedido = await this._clienteService.query(
+        `select AST_SELLERMOVIL_2.insertaDetPedRec(${codLQ}, ${proSecuencia}, ${proCodigo}, ${proCantidad}) as OK from dual `,
+      );
+      if (insertarDPedido[0].OK == -1) {
+        throw new HttpException(
+          'No se pudo registrar la dPedido',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        return insertarDPedido[0];
+      }
+    } catch (error) {
+      console.log('insertarPedidoDFacturaAux -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
