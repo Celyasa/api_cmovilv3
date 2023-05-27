@@ -112,8 +112,10 @@ export class ProductoService {
       let data = lectura.split('\n');
       for (let index = 0; index < data.length; index++) {
         const element = data[index];
-        var json = JSON.parse('{' + element + '}');
-        listaData.push(json);
+        if (element.length > 0) {
+          var json = JSON.parse('{' + element + '}');
+          listaData.push(json);
+        }
       }
       var comp = '';
       let codLq = undefined;
@@ -202,6 +204,36 @@ export class ProductoService {
       }
     } catch (error) {
       console.log('insertarPedidoDFacturaAux -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async listaDataFile() {
+    try {
+      // let text = fs.appendFileSync('my_ttexto.txt', entrada + '\n');
+      let listaData = [];
+      let lectura = fs.readFileSync('my_ttexto.txt', 'utf-8');
+      let data = lectura.split('\n');
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        if (element.length > 0) {
+          var json = JSON.parse('{' + element + '}');
+          listaData.push(json);
+        }
+      }
+      return listaData;
+    } catch (error) {
+      console.log('error listaDataFile -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async deleteDataFile() {
+    try {
+      let eleiminar = fs.unlinkSync('my_ttexto.txt');
+      this.escribirArchivo('');
+      return { ok: 'OK' };
+    } catch (error) {
+      console.log('error en deleteDataFile -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }

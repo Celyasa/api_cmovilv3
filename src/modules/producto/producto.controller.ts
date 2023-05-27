@@ -43,4 +43,12 @@ export class ProductoController {
   async obtenerClientesAutoventa() {
     return await this.productoService.leerArchivo();
   }
+  @Get('/lista/archivo')
+  async listaDataFile() {
+    return await this.productoService.listaDataFile();
+  }
+  @Get('/delete/archivo')
+  async deleteDataFIle() {
+    return await this.productoService.deleteDataFile();
+  }
 }
