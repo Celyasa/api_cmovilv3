@@ -136,7 +136,14 @@ export class ProductoService {
         }
       }
 
-      return dPed;
+      if (listaData.length > 1) {
+        return dPed;
+      } else {
+        throw new HttpException(
+          'No existe datos para insertar',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
     } catch (error) {
       console.log('leerArchivo -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
