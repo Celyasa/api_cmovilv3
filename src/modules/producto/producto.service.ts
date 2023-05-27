@@ -43,7 +43,7 @@ export class ProductoService {
       let num3 = Math.floor(Math.random() * 500);
       let num4 = Math.floor(Math.random() * 100);
       let respuesta = String(num1) + String(num2) + String(num3) + String(num4);
-      let data = `idIdentificador:${respuesta},lqAut:${cPedido.lqAut}`;
+      let data = `"idIdentificador":"${respuesta}","lqAut":"${cPedido.lqAut}"`;
       // let sql = `idIdentificador:${respuesta}:select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${cPedido.lqAut})) as codLQ from dual`;
       this.escribirArchivo(data);
       return {
@@ -69,7 +69,8 @@ export class ProductoService {
 
   async insertarPedidoDFactura(dPedido: postDPedidoInsertarDto) {
     try {
-      let sql = `select AST_SELLERMOVIL_2.insertaDetPedRec(${dPedido.codLQ}, ${dPedido.proSecuencia}, ${dPedido.proCodigo}, ${dPedido.proCantidad}) as OK from dual`;
+      // let sql = `select AST_SELLERMOVIL_2.insertaDetPedRec(${dPedido.codLQ}, ${dPedido.proSecuencia}, ${dPedido.proCodigo}, ${dPedido.proCantidad}) as OK from dual`;
+      let sql = `"codLQ":"${dPedido.codLQ}","proSecuencia":${dPedido.proSecuencia},"proCodigo":${dPedido.proCodigo},"proCantidad":${dPedido.proCantidad}`;
       this.escribirArchivo(sql);
       return {
         OK: 1,
