@@ -127,15 +127,20 @@ export class ProductoService {
           //llamar a insertar cInsertar
           codLq = await this.insertarPedidoCcomprobaAux(element.lqAut);
         }
+        console.log(codLq.codLQ);
+        
         if (comp == element.codLQ) {
-          if (codLq != null && codLq > 0)
+          console.log(codLq.codLQ);
+          if (codLq.codLQ != null && codLq.codLQ > 0){
             dPed = await this.insertarPedidoDFacturaAux(
               codLq.codLQ,
               element.proSecuencia,
               element.proCodigo,
               element.proCantidad,
             );
-          //Llamar a dinsertar
+
+          //Llamar a dinsertar´
+          }
         }
       }
 

@@ -1,0 +1,63 @@
+idIdentificador:40298717056,lqAut:26900000000000000000015928242
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 1, 10065651, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 3, 10021419, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 9, 10066683, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 5, 10063289, 24) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 8, 10066684, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 7, 10066861, 4) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 2, 10049517, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 4, 10066835, 5) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(40298717056, 6, 10066729, 6) as OK from dual
+idIdentificador:154629445030,lqAut:32500000000000000000015925797
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 1, 10049517, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 7, 10060015, 12) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 2, 10066736, 2) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 8, 10067084, 8) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 6, 10065834, 3) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 4, 10066738, 1) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 9, 10067082, 8) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 5, 10018999, 3) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 3, 10066737, 2) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(154629445030, 10, 10067081, 8) as OK from dual
+idIdentificador:18267182199,lqAut:32500000000000000000015928683
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 1, 10061458, 12) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 2, 10066403, 1) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 5, 10067030, 1) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 3, 10055217, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 6, 10065536, 1) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 4, 10036555, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 8, 10060015, 12) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 11, 10067084, 8) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 12, 10067082, 8) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 15, 10066738, 1) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 14, 10061438, 36) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 16, 10066737, 2) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 10, 10065834, 3) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 7, 10049517, 6) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 13, 10067081, 8) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 17, 10066736, 2) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(18267182199, 9, 10018999, 3) as OK from dual
+idIdentificador:339961211,lqAut:32500000000000000000015928812
+select AST_SELLERMOVIL_2.insertaDetPedRec(339961211, 1, 10065526, 388) as OK from dual
+select AST_SELLERMOVIL_2.insertaDetPedRec(339961211, 2, 10065655, 69) as OK from dual
+
+"idIdentificador":"2274304780","lqAut":"26500000000000000000015928323"
+"codLQ":"2274304780","proSecuencia":1,"proCodigo":10036555,"proCantidad":2
+"codLQ":"2274304780","proSecuencia":3,"proCodigo":10018899,"proCantidad":25
+"codLQ":"2274304780","proSecuencia":2,"proCodigo":10061843,"proCantidad":2
+"idIdentificador":"169932642893","lqAut":"26500000000000000000015928323"
+"codLQ":"169932642893","proSecuencia":1,"proCodigo":10002073,"proCantidad":2
+"codLQ":"169932642893","proSecuencia":3,"proCodigo":10061843,"proCantidad":2
+"codLQ":"169932642893","proSecuencia":2,"proCodigo":10018899,"proCantidad":2
+"idIdentificador":"197086531279","lqAut":"26500000000000000000015928323"
+"codLQ":"197086531279","proSecuencia":2,"proCodigo":10061843,"proCantidad":2
+"codLQ":"197086531279","proSecuencia":1,"proCodigo":10036555,"proCantidad":2
+
+"idIdentificador":"94298613539","lqAut":"26500000000000000000015928323"
+"codLQ":"94298613539","proSecuencia":3,"proCodigo":10065526,"proCantidad":12
+"codLQ":"94298613539","proSecuencia":6,"proCodigo":10061885,"proCantidad":2
+"codLQ":"94298613539","proSecuencia":5,"proCodigo":10061848,"proCantidad":1
+"codLQ":"94298613539","proSecuencia":4,"proCodigo":10018999,"proCantidad":12
+"codLQ":"94298613539","proSecuencia":2,"proCodigo":10015879,"proCantidad":12
+"codLQ":"94298613539","proSecuencia":1,"proCodigo":10036555,"proCantidad":12
+
