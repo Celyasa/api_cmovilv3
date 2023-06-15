@@ -58,6 +58,7 @@ export class AuthService {
       ucmVersion: usrcmovil.ucmVersion,
       ucmInactivo: usrcmovil.ucmInactivo,
       ucmModulo: usrcmovil.ucmModulo,
+      ucmAgeCodigo: usrcmovil.ucmAgeCodigo,
     };
 
     console.log(payload);

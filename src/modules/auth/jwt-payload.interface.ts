@@ -16,4 +16,6 @@ export interface IJwtPayload {
 
   //Verificar si es activo
   ucmInactivo: number;
+
+  ucmAgeCodigo: number;
 }
