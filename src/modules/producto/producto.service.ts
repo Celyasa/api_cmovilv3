@@ -98,6 +98,7 @@ export class ProductoService {
       // let lectura = fs.readFileSync('my_ttexto.txt', 'utf-8');
       // const wordList = lectura.split('\r\n');
       // console.log(wordList);
+
       return { ok: 'OK' };
     } catch (error) {
       console.log('escribirArchivo -->' + error);
@@ -128,10 +129,10 @@ export class ProductoService {
           codLq = await this.insertarPedidoCcomprobaAux(element.lqAut);
         }
         console.log(codLq.codLQ);
-        
+
         if (comp == element.codLQ) {
           console.log(codLq.codLQ);
-          if (codLq.codLQ != null && codLq.codLQ > 0){
+          if (codLq.codLQ != null && codLq.codLQ > 0) {
             dPed = await this.insertarPedidoDFacturaAux(
               codLq.codLQ,
               element.proSecuencia,
@@ -139,7 +140,7 @@ export class ProductoService {
               element.proCantidad,
             );
 
-          //Llamar a dinsertar´
+            //Llamar a dinsertar´
           }
         }
       }
@@ -171,7 +172,6 @@ export class ProductoService {
       } else {
         return { codLQ: insertProductos[0].CODLQ };
       }
-
       // let num1 = Math.floor(Math.random() * 2000);
       // let num2 = Math.floor(Math.random() * 1000);
       // let num3 = Math.floor(Math.random() * 500);
@@ -196,6 +196,7 @@ export class ProductoService {
       // return {
       //   OK: 1,
       // };
+
       const insertarDPedido = await this._clienteService.query(
         `select AST_SELLERMOVIL_2.insertaDetPedRec(${codLQ}, ${proSecuencia}, ${proCodigo}, ${proCantidad}) as OK from dual `,
       );
