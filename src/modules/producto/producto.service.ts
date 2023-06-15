@@ -128,15 +128,20 @@ export class ProductoService {
           //llamar a insertar cInsertar
           codLq = await this.insertarPedidoCcomprobaAux(element.lqAut);
         }
+        console.log(codLq.codLQ);
+
         if (comp == element.codLQ) {
-          if (codLq != null && codLq > 0)
+          console.log(codLq.codLQ);
+          if (codLq.codLQ != null && codLq.codLQ > 0) {
             dPed = await this.insertarPedidoDFacturaAux(
               codLq.codLQ,
               element.proSecuencia,
               element.proCodigo,
               element.proCantidad,
             );
-          //Llamar a dinsertar
+
+            //Llamar a dinsertar´
+          }
         }
       }
 
@@ -156,23 +161,23 @@ export class ProductoService {
 
   async insertarPedidoCcomprobaAux(lqAut: string) {
     try {
-      // const insertProductos = await this._clienteService.query(
-      //   `select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${lqAut})) as codLQ from dual`,
-      // );
-      // if (insertProductos[0].CODLQ == -1) {
-      //   throw new HttpException(
-      //     'No se pudo registrar el Ccomproba',
-      //     HttpStatus.BAD_REQUEST,
-      //   );
-      // } else {
-      //   return { codLQ: insertProductos[0].CODLQ };
-      // }
-      let num1 = Math.floor(Math.random() * 2000);
-      let num2 = Math.floor(Math.random() * 1000);
-      let num3 = Math.floor(Math.random() * 500);
-      let num4 = Math.floor(Math.random() * 100);
-      let respuesta = String(num1) + String(num2) + String(num3) + String(num4);
-      return { codLQ: respuesta };
+      const insertProductos = await this._clienteService.query(
+        `select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${lqAut})) as codLQ from dual`,
+      );
+      if (insertProductos[0].CODLQ == -1) {
+        throw new HttpException(
+          'No se pudo registrar el Ccomproba',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        return { codLQ: insertProductos[0].CODLQ };
+      }
+      // let num1 = Math.floor(Math.random() * 2000);
+      // let num2 = Math.floor(Math.random() * 1000);
+      // let num3 = Math.floor(Math.random() * 500);
+      // let num4 = Math.floor(Math.random() * 100);
+      // let respuesta = String(num1) + String(num2) + String(num3) + String(num4);
+      // return { codLQ: respuesta };
     } catch (error) {
       console.log('ERROR insertarPedidoCcomprobaAux -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
@@ -186,22 +191,23 @@ export class ProductoService {
     proCantidad: number,
   ) {
     try {
-      let sql = `select AST_SELLERMOVIL_2.insertaDetPedRec(${codLQ}, ${proSecuencia}, ${proCodigo}, ${proCantidad}) as OK from dual`;
-      console.log(sql);
-      return {
-        OK: 1,
-      };
-      // const insertarDPedido = await this._clienteService.query(
-      //   `select AST_SELLERMOVIL_2.insertaDetPedRec(${codLQ}, ${proSecuencia}, ${proCodigo}, ${proCantidad}) as OK from dual `,
-      // );
-      // if (insertarDPedido[0].OK == -1) {
-      //   throw new HttpException(
-      //     'No se pudo registrar la dPedido',
-      //     HttpStatus.BAD_REQUEST,
-      //   );
-      // } else {
-      //   return insertarDPedido[0];
-      // }
+      // let sql = `select AST_SELLERMOVIL_2.insertaDetPedRec(${codLQ}, ${proSecuencia}, ${proCodigo}, ${proCantidad}) as OK from dual`;
+      // console.log(sql);
+      // return {
+      //   OK: 1,
+      // };
+
+      const insertarDPedido = await this._clienteService.query(
+        `select AST_SELLERMOVIL_2.insertaDetPedRec(${codLQ}, ${proSecuencia}, ${proCodigo}, ${proCantidad}) as OK from dual `,
+      );
+      if (insertarDPedido[0].OK == -1) {
+        throw new HttpException(
+          'No se pudo registrar la dPedido',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        return insertarDPedido[0];
+      }
     } catch (error) {
       console.log('insertarPedidoDFacturaAux -->' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
