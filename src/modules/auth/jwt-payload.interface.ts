@@ -18,4 +18,6 @@ export interface IJwtPayload {
   ucmInactivo: number;
 
   ucmAgeCodigo: number;
+
+  ucmAlmCodigo: number;
 }
