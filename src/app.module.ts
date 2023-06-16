@@ -9,7 +9,6 @@ import { UsrcmovilModule } from './modules/usrcmovil/usrcmovil.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ClienteModule } from './modules/cliente/cliente.module';
 import { ProductoModule } from './modules/producto/producto.module';
-import { DescargarInformacionModule } from './modules/descargar_informacion/descargar_informacion.module';
 
 @Module({
   imports: [
@@ -31,7 +30,6 @@ import { DescargarInformacionModule } from './modules/descargar_informacion/desc
     UsrcmovilModule,
     ClienteModule,
     ProductoModule,
-    DescargarInformacionModule,
   ],
   controllers: [],
   providers: [],
