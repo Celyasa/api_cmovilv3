@@ -1,3 +1,4 @@
+import { postSubirDataDto } from './../usrcmovil/dto/postSubirData.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -7,6 +8,7 @@ import { getProductoAutoventaDto } from './dto/getProductoAutoventa.dto';
 import { postCPedidoInsertarDto } from './dto/postCPedidoInsertar.dto';
 import { postDPedidoInsertarDto } from './dto/postDPedidoInsertar.dto';
 import * as fs from 'fs';
+import { postSubirDataRecargaDto } from './dto/postSubirDataRecarga.dto';
 
 @Injectable()
 export class ProductoService {
@@ -240,6 +242,29 @@ export class ProductoService {
       return { ok: 'OK' };
     } catch (error) {
       console.log('error en deleteDataFile -->' + error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async subirRecargasCmovil(
+    postSubirDataRecargaDto: postSubirDataRecargaDto[],
+  ) {
+    try {
+      let listaDetalle = [];
+      for (let index = 0; index < postSubirDataRecargaDto.length; index++) {
+        const element = postSubirDataRecargaDto[index];
+        let data = `"idIdentificador":"${element.pedId}","lqAut":"${element.lqAut}"`;
+        this.escribirArchivo(data);
+        for (let index = 0; index < element.detalle.length; index++) {
+          const detalle = element.detalle[index];
+          let sql = `"codLQ":"${detalle.pedId}","proSecuencia":${detalle.secuencia},"proCodigo":${detalle.proCodigo},"proCantidad":${detalle.proCantidad}`;
+          this.escribirArchivo(sql);
+        }
+        listaDetalle.push(element.pedId);
+      }
+      return { ok: true, listaDetalle: listaDetalle };
+    } catch (error) {
+      console.log('error en subirRecargasCmovil --> ' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }

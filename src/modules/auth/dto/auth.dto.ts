@@ -22,4 +22,7 @@ export class AuthDto {
 
   @Expose()
   ucmAgeCodigo: number;
+
+  @Expose()
+  ucmAlmCodigo: number;
 }
