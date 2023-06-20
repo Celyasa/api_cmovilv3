@@ -19,4 +19,10 @@ export class AuthDto {
 
   @Expose()
   ucmNuevaVersion: String;
+
+  @Expose()
+  ucmAgeCodigo: number;
+
+  @Expose()
+  ucmAlmCodigo: number;
 }

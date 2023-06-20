@@ -2,10 +2,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api/cmovilv3');
+
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: false,
@@ -13,6 +15,9 @@ async function bootstrap() {
     }),
   );
   app.enableCors();
+
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
   const configSwagger = new DocumentBuilder()
     .addBearerAuth()

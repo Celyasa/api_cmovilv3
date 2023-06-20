@@ -11,6 +11,8 @@ import { ProductoService } from './producto.service';
 import { ApiTags } from '@nestjs/swagger';
 import { postCPedidoInsertarDto } from './dto/postCPedidoInsertar.dto';
 import { postDPedidoInsertarDto } from './dto/postDPedidoInsertar.dto';
+import { postSubirDataDto } from '../usrcmovil/dto/postSubirData.dto';
+import { postSubirDataRecargaDto } from './dto/postSubirDataRecarga.dto';
 
 @ApiTags('Producto')
 @Controller('producto')
@@ -50,5 +52,14 @@ export class ProductoController {
   @Get('/delete/archivo')
   async deleteDataFIle() {
     return await this.productoService.deleteDataFile();
+  }
+
+  @Post('/subir/recarga')
+  async subirRecarga(
+    @Body() _postSubirDataRecargaDto: postSubirDataRecargaDto[],
+  ) {
+    return await this.productoService.subirRecargasCmovil(
+      _postSubirDataRecargaDto,
+    );
   }
 }
