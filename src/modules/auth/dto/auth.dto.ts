@@ -25,4 +25,7 @@ export class AuthDto {
 
   @Expose()
   ucmAlmCodigo: number;
+
+  @Expose()
+  ucmModulo: number;
 }
