@@ -254,17 +254,25 @@ export class ProductoService {
       for (let index = 0; index < postSubirDataRecargaDto.length; index++) {
         const element = postSubirDataRecargaDto[index];
         let data = `"idIdentificador":"${element.pedId}","lqAut":"${element.lqAut}"`;
-        this.escribirArchivo(data);
-        for (let index = 0; index < element.detalle.length; index++) {
-          const detalle = element.detalle[index];
-          let sql = `"codLQ":"${detalle.pedId}","proSecuencia":${detalle.secuencia},"proCodigo":${detalle.proCodigo},"proCantidad":${detalle.proCantidad}`;
-          this.escribirArchivo(sql);
+        if (element.detalle.length > 0) {
+          this.escribirArchivo(data);
+          for (let index = 0; index < element.detalle.length; index++) {
+            const detalle = element.detalle[index];
+            let sql = `"codLQ":"${detalle.pedId}","proSecuencia":${detalle.secuencia},"proCodigo":${detalle.proCodigo},"proCantidad":${detalle.proCantidad}`;
+            this.escribirArchivo(sql);
+          }
+          listaDetalle.push(element.pedId);
+        } else {
+          this.deleteDataFile();
+          throw new HttpException(
+            { ok: false, msg: 'No existe Detalle' },
+            HttpStatus.BAD_REQUEST,
+          );
         }
-        listaDetalle.push(element.pedId);
       }
       return { ok: true, listaDetalle: listaDetalle };
     } catch (error) {
-      console.log('error en subirRecargasCmovil --> ' + error);
+      console.log('error en subirRecargasCmovil -->  ' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }

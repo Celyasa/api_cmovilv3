@@ -1,24 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
 export class postSubirDataRecargaDto {
   @ApiProperty()
   @Expose()
-  @IsString()
   @IsNotEmpty({ message: 'Falta lqAut' })
+  @IsString()
   lqAut: string;
 
   @ApiProperty()
   @Expose()
-  @IsNumber()
   @IsNotEmpty({ message: 'Falta pedId' })
+  @IsNumber()
   pedId: number;
 
   @ApiProperty()
   @Expose()
   @IsNotEmpty({ message: 'Falta Detalle' })
+  @IsArray()
   @Type(() => Detalle)
+  // @ValidateNested()
   detalle: Detalle[];
 }
 

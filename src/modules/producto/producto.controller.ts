@@ -6,14 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProductoService } from './producto.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { postCPedidoInsertarDto } from './dto/postCPedidoInsertar.dto';
 import { postDPedidoInsertarDto } from './dto/postDPedidoInsertar.dto';
 import { postSubirDataDto } from '../usrcmovil/dto/postSubirData.dto';
 import { postSubirDataRecargaDto } from './dto/postSubirDataRecarga.dto';
 
+@UsePipes(ValidationPipe)
 @ApiTags('Producto')
 @Controller('producto')
 export class ProductoController {
@@ -55,6 +58,7 @@ export class ProductoController {
   }
 
   @Post('/subir/recarga')
+  @ApiResponse({ status: 200, type: postSubirDataRecargaDto })
   async subirRecarga(
     @Body() _postSubirDataRecargaDto: postSubirDataRecargaDto[],
   ) {
