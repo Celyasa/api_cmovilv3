@@ -222,6 +222,7 @@ export class UsrcmovilService {
         `
         select pro_codigo,pro_id,pro_nombre,rut_codigo,rut_id, alm_codigo,alm_nombre,gcm_canal, gcm_principal,gcm_combo
         from sellerm2.v_movil_combosmix where alm_codigo = ${token.ucmAlmCodigo}
+        
         `,
       );
 
