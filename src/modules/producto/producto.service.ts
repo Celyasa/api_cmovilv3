@@ -119,7 +119,6 @@ export class ProductoService {
         const element = data[index];
         if (element.length > 0) {
           var json = JSON.parse('{' + element + '}');
-          // console.log('------> ', json.idIdentificador);
           const identificador = listaData.find(
             (element) =>
               element.idIdentificador == json.idIdentificador &&
@@ -162,6 +161,7 @@ export class ProductoService {
 
       if (listaData.length > 1) {
         this.deleteDataFile();
+        console.log('------>ok   ' + codLq, dPed);
         return dPed;
       } else {
         throw new HttpException(
