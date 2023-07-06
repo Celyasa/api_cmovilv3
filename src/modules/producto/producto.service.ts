@@ -45,7 +45,8 @@ export class ProductoService {
       let num2 = Math.floor(Math.random() * 1000);
       let num3 = Math.floor(Math.random() * 500);
       let num4 = Math.floor(Math.random() * 100);
-      let respuesta = nummero + String(num1) + String(num2) + String(num3) + String(num4);
+      let respuesta =
+        nummero + String(num1) + String(num2) + String(num3) + String(num4);
       let data = `"idIdentificador":"${respuesta}","lqAut":"${cPedido.lqAut}"`;
       // let sql = `idIdentificador:${respuesta}:select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${cPedido.lqAut})) as codLQ from dual`;
       this.escribirArchivo(data);
@@ -118,12 +119,26 @@ export class ProductoService {
         const element = data[index];
         if (element.length > 0) {
           var json = JSON.parse('{' + element + '}');
-          listaData.push(json);
+          // console.log('------> ', json.idIdentificador);
+          const identificador = listaData.find(
+            (element) =>
+              element.idIdentificador == json.idIdentificador &&
+              element.lqAut == json.lqAut,
+          );
+          const proCodigo = listaData.find(
+            (element) =>
+              element.codLQ == json.codLQ &&
+              element.proCodigo == json.proCodigo,
+          );
+          if (!identificador || !proCodigo) {
+            listaData.push(json);
+          }
         }
       }
       var comp = '';
       let codLq = undefined;
       let dPed = undefined;
+
       for (let index = 0; index < listaData.length; index++) {
         const element = listaData[index];
         if (element.idIdentificador > 0 && element.lqAut > 0) {
@@ -134,14 +149,13 @@ export class ProductoService {
         if (comp == element.codLQ) {
           console.log(codLq.codLQ);
           if (codLq.codLQ != null && codLq.codLQ > 0) {
+            //Llamar a dinsertar´
             dPed = await this.insertarPedidoDFacturaAux(
               codLq.codLQ,
               element.proSecuencia,
               element.proCodigo,
               element.proCantidad,
             );
-
-            //Llamar a dinsertar´
           }
         }
       }
@@ -181,7 +195,7 @@ export class ProductoService {
       // let respuesta = String(num1) + String(num2) + String(num3) + String(num4);
       // return { codLQ: respuesta };
     } catch (error) {
-      console.log('ERROR insertarPedidoCcomprobaAux -->' + error);
+      console.log('ERROR insertarPedidoCcomprobaAux --> ' + error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }

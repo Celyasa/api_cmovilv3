@@ -38,3 +38,5 @@ lerna-debug.log*
 .env.*
 
 tnsnames.ora
+
+my_ttexto.txt
