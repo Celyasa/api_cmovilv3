@@ -131,8 +131,6 @@ export class ProductoService {
           //llamar a insertar cInsertar
           codLq = await this.insertarPedidoCcomprobaAux(element.lqAut);
         }
-        console.log(codLq.codLQ);
-        
         if (comp == element.codLQ) {
           console.log(codLq.codLQ);
           if (codLq.codLQ != null && codLq.codLQ > 0) {

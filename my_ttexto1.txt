@@ -16,3 +16,16 @@
 "codLQ":"94298613539","proSecuencia":4,"proCodigo":10018999,"proCantidad":12
 "codLQ":"94298613539","proSecuencia":2,"proCodigo":10015879,"proCantidad":12
 "codLQ":"94298613539","proSecuencia":1,"proCodigo":10036555,"proCantidad":12
+----------------------------------------------------------------------------
+"idIdentificador":"355233","lqAut":"42500000000000000000016038407"
+"codLQ":"355233","proSecuencia":1,"proCodigo":10055217,"proCantidad":48
+"codLQ":"355233","proSecuencia":2,"proCodigo":10064032,"proCantidad":4
+"codLQ":"355233","proSecuencia":3,"proCodigo":10060642,"proCantidad":12
+"codLQ":"355233","proSecuencia":4,"proCodigo":10060425,"proCantidad":12
+"codLQ":"355233","proSecuencia":5,"proCodigo":10067263,"proCantidad":6
+"idIdentificador":"355233","lqAut":"42500000000000000000016038407"
+"codLQ":"355233","proSecuencia":1,"proCodigo":10055217,"proCantidad":48
+"codLQ":"355233","proSecuencia":2,"proCodigo":10064032,"proCantidad":4
+"codLQ":"355233","proSecuencia":3,"proCodigo":10060642,"proCantidad":12
+"codLQ":"355233","proSecuencia":4,"proCodigo":10060425,"proCantidad":12
+"codLQ":"355233","proSecuencia":5,"proCodigo":10067263,"proCantidad":6
