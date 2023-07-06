@@ -1,6 +1,0 @@
-
-"idIdentificador":"13636315","lqAut":"42500000000000000000016038416"
-"codLQ":"13636315","proSecuencia":1,"proCodigo":10065884,"proCantidad":40
-"codLQ":"13636315","proSecuencia":2,"proCodigo":10062880,"proCantidad":40
-"codLQ":"13636315","proSecuencia":3,"proCodigo":10063695,"proCantidad":4
-"codLQ":"13636315","proSecuencia":4,"proCodigo":10060414,"proCantidad":4

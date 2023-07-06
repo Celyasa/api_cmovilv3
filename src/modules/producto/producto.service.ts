@@ -161,7 +161,7 @@ export class ProductoService {
 
       if (listaData.length > 1) {
         this.deleteDataFile();
-        console.log('------>ok   ' + codLq, dPed);
+        console.log(codLq, dPed);
         return dPed;
       } else {
         throw new HttpException(
