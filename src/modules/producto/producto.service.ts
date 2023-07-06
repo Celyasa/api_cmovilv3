@@ -40,11 +40,12 @@ export class ProductoService {
 
   async insertarPedidoCcomproba(cPedido: postCPedidoInsertarDto) {
     try {
+      const nummero = 69;
       let num1 = Math.floor(Math.random() * 2000);
       let num2 = Math.floor(Math.random() * 1000);
       let num3 = Math.floor(Math.random() * 500);
       let num4 = Math.floor(Math.random() * 100);
-      let respuesta = String(num1) + String(num2) + String(num3) + String(num4);
+      let respuesta = nummero + String(num1) + String(num2) + String(num3) + String(num4);
       let data = `"idIdentificador":"${respuesta}","lqAut":"${cPedido.lqAut}"`;
       // let sql = `idIdentificador:${respuesta}:select TO_CHAR(AST_SELLERMOVIL_2.insertaCabPedRecarga(${cPedido.lqAut})) as codLQ from dual`;
       this.escribirArchivo(data);
@@ -131,7 +132,7 @@ export class ProductoService {
           codLq = await this.insertarPedidoCcomprobaAux(element.lqAut);
         }
         console.log(codLq.codLQ);
-
+        
         if (comp == element.codLQ) {
           console.log(codLq.codLQ);
           if (codLq.codLQ != null && codLq.codLQ > 0) {
@@ -148,6 +149,7 @@ export class ProductoService {
       }
 
       if (listaData.length > 1) {
+        this.deleteDataFile();
         return dPed;
       } else {
         throw new HttpException(
