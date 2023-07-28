@@ -32,6 +32,7 @@ export class AuthService {
         ucmId: ucmId,
       })
       .getOne();
+
     if (!usrcmovil) {
       throw new NotFoundException('El usuario no existe');
     }
@@ -39,9 +40,25 @@ export class AuthService {
       throw new NotFoundException('El usuario ha sido dado de baja');
     }
 
+    if (usrcmovil.ucmConfigura == 0) {
+      throw new NotFoundException(
+        'El usuario esta configurado en otro dispositivo',
+      );
+    }
     if (ucmId != usrcmovil.ucmId) {
       throw new UnauthorizedException('Datos Incorrectos');
     }
+
+    await this._authService
+      .createQueryBuilder('usrcmovil')
+      .update()
+      .set({
+        ucmConfigura: 0,
+      })
+      .where('usrcmovil.ucm_id =:ucmId', {
+        ucmId: ucmId,
+      })
+      .execute();
     return this.generarJWT(usrcmovil);
   }
 
@@ -61,7 +78,6 @@ export class AuthService {
       ucmAgeCodigo: usrcmovil.ucmAgeCodigo,
       ucmAlmCodigo: usrcmovil.ucmAlmCodigo,
     };
-
     console.log(payload);
 
     const token = await this._jwtService.sign(payload, {
