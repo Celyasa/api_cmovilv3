@@ -4,6 +4,7 @@ import { Usrcmovil } from '../usrcmovil/entities/usrcmovil.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -40,11 +41,11 @@ export class AuthService {
       throw new NotFoundException('El usuario ha sido dado de baja');
     }
 
-    if (usrcmovil.ucmConfigura == 0) {
-      throw new NotFoundException(
-        'El usuario esta configurado en otro dispositivo',
-      );
-    }
+    // if (usrcmovil.ucmConfigura == 0) {
+    //   throw new NotFoundException(
+    //     'El usuario esta configurado en otro dispositivo',
+    //   );
+    // }
     if (ucmId != usrcmovil.ucmId) {
       throw new UnauthorizedException('Datos Incorrectos');
     }
@@ -59,6 +60,7 @@ export class AuthService {
         ucmId: ucmId,
       })
       .execute();
+    usrcmovil.ucmConfigura = 0;
     return this.generarJWT(usrcmovil);
   }
 
@@ -96,5 +98,18 @@ export class AuthService {
       return null;
     }
     return plainToInstance(AuthDto, decoded);
+  }
+
+  async refreshToken(ucmId: string): Promise<{ token: string }> {
+    const usrcmovil: Usrcmovil = await this._authService
+      .createQueryBuilder('usrcmovil')
+      .where('usrcmovil.ucmId =:ucmId ', {
+        ucmId: ucmId,
+      })
+      .getOne();
+    if (!usrcmovil) {
+      throw new BadRequestException();
+    }
+    return this.generarJWT(usrcmovil);
   }
 }
