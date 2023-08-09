@@ -246,6 +246,26 @@ export class UsrcmovilService {
         comboMix: comboMix,
       };
 
+      // const resultado = {
+      //   cmovilVersion: versionCmovil[0].ucmNuevaVersion,
+      //   lq: [],
+      //   cliente: [],
+      //   listaPrecio: [],
+      //   productoCategoria: [],
+      //   producto: [],
+      //   productoCombo: [],
+      //   listaDescuento: [],
+      //   tipoVisita: [],
+      //   listaNegraTelefono: [],
+      //   // carteraTotal: carteraTotal,
+      //   presupuesto: [],
+      //   pedidoSugerido: [],
+      //   autualizacionDatosCliente: [],
+      //   datosCreaCliente: [],
+      //   infoCreaCliente: [],
+      //   comboMix: [],
+      // };
+
       return plainToInstance(transformDescargarDatosDto, resultado);
       // return resultado;
     } catch (error) {

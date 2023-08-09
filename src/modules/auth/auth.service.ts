@@ -41,11 +41,9 @@ export class AuthService {
       throw new NotFoundException('El usuario ha sido dado de baja');
     }
 
-    // if (usrcmovil.ucmConfigura == 0) {
-    //   throw new NotFoundException(
-    //     'El usuario esta configurado en otro dispositivo',
-    //   );
-    // }
+    if (usrcmovil.ucmConfigura == 0) {
+      throw new NotFoundException('Usuario con sesión activa');
+    }
     if (ucmId != usrcmovil.ucmId) {
       throw new UnauthorizedException('Datos Incorrectos');
     }

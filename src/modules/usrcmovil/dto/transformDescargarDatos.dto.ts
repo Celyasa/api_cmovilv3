@@ -142,7 +142,7 @@ class Cliente {
 
   @Expose({ name: 'CLI_RUC_CEDULA' })
   @Type(() => String)
-  CliRucCedula: string;
+  cliRucCedula: string;
 
   @Expose({ name: 'CLI_DIRECCION' })
   @Type(() => String)
