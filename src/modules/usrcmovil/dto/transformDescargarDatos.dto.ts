@@ -46,8 +46,8 @@ export class transformDescargarDatosDto {
   @Type(() => DatosCreaCliente)
   datosCreaCliente: DatosCreaCliente[];
 
-  @Type(() => InfoCreaCliente)
-  infoCreaCliente: InfoCreaCliente[];
+  @Type(() => CiudadParroquia)
+  ciudadParroquia: CiudadParroquia[];
 
   @Type(() => ComboMix)
   comboMix: ComboMix[];
@@ -215,6 +215,10 @@ class Cliente {
   @Expose({ name: 'CLI_LISTAPRE' })
   @Type(() => Number)
   cliListaPre: number;
+
+  @Expose({ name: 'CLI_ILIMITADO' })
+  @Type(() => Number)
+  cliIlimitado: number;
 
   @Expose({ name: 'PARROQUIA' })
   @Type(() => String)
@@ -585,31 +589,40 @@ class AutualizacionDatosCliente {
   cliCodigo: number;
 }
 class DatosCreaCliente {
-  @Expose({ name: 'TPC_CODIGO' })
+  // "EMPRESA": 2,
+  // "CODIGO": 4250000731,
+  // "NOMBRE": "TIENDA",
+  // "TIPO": "4"
+
+  @Expose({ name: 'EMPRESA' })
   @Type(() => Number)
-  tpcCodigo: number;
+  empCodigo: number;
 
-  @Expose({ name: 'TPC_ACT_TIPOCAMPO' })
-  @Type(() => Number)
-  tpcActTipoCampo: number;
-
-  @Expose({ name: 'TPC_OPCION' })
-  @Type(() => String)
-  tpcOpcion: string;
-}
-
-class InfoCreaCliente {
   @Expose({ name: 'CODIGO' })
   @Type(() => Number)
-  codigo: number;
+  datCodigo: number;
 
   @Expose({ name: 'NOMBRE' })
   @Type(() => String)
-  nombre: string;
+  datNombre: string;
 
   @Expose({ name: 'TIPO' })
+  @Type(() => Number)
+  dataTipo: number;
+}
+
+class CiudadParroquia {
+  @Expose({ name: 'UBI_CODIGO' })
+  @Type(() => Number)
+  ubiCodigo: number;
+
+  @Expose({ name: 'UBI_NOMBRE' })
   @Type(() => String)
-  tipo: string;
+  ubiNombre: string;
+
+  @Expose({ name: 'UBI_REPORTA' })
+  @Type(() => Number)
+  ubiReporta: number;
 }
 class ComboMix {
   @Expose({ name: 'PRO_CODIGO' })

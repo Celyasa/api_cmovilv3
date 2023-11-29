@@ -48,17 +48,19 @@ export class AuthService {
       throw new UnauthorizedException('Datos Incorrectos');
     }
 
-    await this._authService
-      .createQueryBuilder('usrcmovil')
-      .update()
-      .set({
-        ucmConfigura: 0,
-      })
-      .where('usrcmovil.ucm_id =:ucmId', {
-        ucmId: ucmId,
-      })
-      .execute();
-    usrcmovil.ucmConfigura = 0;
+    if (usrcmovil.ucmConfigura == 1) {
+      await this._authService
+        .createQueryBuilder('usrcmovil')
+        .update()
+        .set({
+          ucmConfigura: 0,
+        })
+        .where('usrcmovil.ucm_id =:ucmId', {
+          ucmId: ucmId,
+        })
+        .execute();
+      usrcmovil.ucmConfigura = 0;
+    }
     return this.generarJWT(usrcmovil);
   }
 

@@ -28,10 +28,6 @@ export class getClienteAutoventaDto {
   @Type(() => Number)
   cliCupo: number;
 
-  @Expose({ name: 'CLI_ILIMITADO' })
-  @Type(() => Number)
-  cliIlimitado: number;
-
   @Expose({ name: 'CCL_NOMBRE' })
   @Type(() => String)
   cclNombre: string;
@@ -39,6 +35,10 @@ export class getClienteAutoventaDto {
   @Expose({ name: 'CLI_LISTAPRE' })
   @Type(() => Number)
   cliListaPre: number;
+
+  @Expose({ name: 'CLI_ILIMITADO' })
+  @Type(() => Number)
+  cliIlimitado: number;
 
   @Expose({ name: 'CLI_ZONA' })
   @Type(() => Number)

@@ -87,10 +87,22 @@ export class UsrcmovilService {
           const element = obtenerLQ[index];
           rutas.push(element.CCA_RUTA);
         }
-        cliente = await this._usrcmovilService.query(
-          ` select * from cm2_clientes_total t where t.cli_agente=${token.ucmAgeCodigo} 
-          and t.cli_ruta in (${rutas})`,
-        );
+        if (rutas.length > 0 && rutas != null) {
+          cliente = await this._usrcmovilService.query(
+            ` select 
+            CLI_EMPRESA, CLI_CODIGO, CLI_ID, CLI_NOMBRE, CLI_RUC_CEDULA,
+            CLI_DIRECCION,CLI_TELEFONO1,CLI_TELEFONO2, CLI_TELEFONO3, CLI_MAIL,CLI_BLOQUEO,
+            CLI_CUPO, CLI_ORDEN, CLI_NOMBRECOM, CLI_LATITUD, CLI_LONGITUD, CLI_SEGMENTACION,
+            CLI_AGENTE,TCL_NOMBRE,CCL_NOMBRE,CAT_NOMBRE,POL_NOMBRE,CLI_LISTAPRE,CLI_ILIMITADO,
+            PARROQUIA,CIUDAD,CLI_RUTA,IMP_PORCENTAJE,CLI_SOLICITA_DATOS
+            from cm2_clientes_total t where t.cli_agente=${token.ucmAgeCodigo} 
+            and t.cli_ruta in (${rutas})`,
+          );
+        } else {
+          throw new HttpException('No tiene Ruta', HttpStatus.BAD_REQUEST);
+        }
+
+        // Sacar lista de precios del cliente
         cliente.map((cli) => {
           const found = listaPrecioClientesAux.find(
             (element) => element == cli.CLI_LISTAPRE,
@@ -211,16 +223,33 @@ export class UsrcmovilService {
       );
 
       const datosCreaCliente = await this._usrcmovilService.query(
-        `select tpc_codigo, tpc_act_tipocampo, tpc_opcion from tipo_campo_actdat where tpc_empresa=2`,
+        `select * from CM2_DATOS_CLI_NUEVOS`,
       );
 
-      const infoCreaCliente = await this._usrcmovilService.query(
-        `select codigo,nombre,tipo from v_movil_cliente_datosnuevos`,
+      const ciudadParroquia = await this._usrcmovilService.query(
+        `
+        SELECT DISTINCT
+        ubi.UBI_CODIGO,
+        ubi.UBI_NOMBRE,
+        ubi.UBI_REPORTA
+        FROM
+            ubicacion ubi
+        WHERE
+            ubi_empresa = 2
+        CONNECT BY PRIOR ubi_codigo = ubi_reporta
+        START WITH ubi_reporta IN (
+            SELECT ubi_reporta
+            FROM almacen alm
+            INNER JOIN ubicacion ubi ON alm.alm_ciudad = ubi.ubi_codigo
+                                    AND alm.alm_empresa = ubi.ubi_empresa
+            WHERE alm.alm_codigo = ${token.ucmAlmCodigo}
+        )
+        `,
       );
 
       const comboMix = await this._usrcmovilService.query(
         `
-        select pro_codigo,pro_id,pro_nombre,rut_codigo,rut_id, alm_codigo,alm_nombre,gcm_canal, gcm_principal,gcm_combo
+        select pro_codigo,pro_id,pro_nombre, rut_codigo,rut_id, alm_codigo,alm_nombre,gcm_canal, gcm_principal,gcm_combo
         from sellerm2.v_movil_combosmix where alm_codigo = ${token.ucmAlmCodigo}
         
         `,
@@ -242,7 +271,7 @@ export class UsrcmovilService {
         pedidoSugerido: pedidoSugerido,
         autualizacionDatosCliente: autualizacionDatosCliente,
         datosCreaCliente: datosCreaCliente,
-        infoCreaCliente: infoCreaCliente,
+        ciudadParroquia: ciudadParroquia,
         comboMix: comboMix,
       };
 
