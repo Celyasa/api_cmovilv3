@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -39,4 +39,17 @@ export class AppModule {
   constructor(private readonly _configService: ConfigService) {
     AppModule.port = this._configService.get<number>('PORT') || 3000;
   }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply((req, res, next) => {
+  //       res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  //       res.header('Access-Control-Allow-Credentials', 'true');
+  //       res.header(
+  //         'Access-Control-Allow-Headers',
+  //         'Origin, X-Requested-With, Content-Type, Accept',
+  //       );
+  //       next();
+  //     })
+  //     .forRoutes('/');
+  // }
 }

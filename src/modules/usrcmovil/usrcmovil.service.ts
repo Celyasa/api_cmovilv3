@@ -8,6 +8,10 @@ import { AuthService } from '../auth/auth.service';
 import { postSubirDataDto } from './dto/postSubirData.dto';
 import { transformDescargarDatosDto } from './dto/transformDescargarDatos.dto';
 import { log } from 'console';
+import { transformAgenteDto } from './dto/transformAgente.dto';
+import { postParamDataMapDto } from './dto/postParamDataMap.dto';
+import { transformDataMapPendienteDto } from './dto/transformDataMapPendiente.dto';
+import { transformDataMapVisitadoDto } from './dto/transformDataMapVisitado.dto';
 
 @Injectable()
 export class UsrcmovilService {
@@ -309,4 +313,102 @@ export class UsrcmovilService {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
+
+  async obtenerAgentePorAlmId(almId: number, ucmModulo: number) {
+    try {
+      // 1 Preventa
+      // 2 Entrega
+      // 3 Supervisor
+      // 4 Autoventa
+      const agente = await this._usrcmovilService.query(
+        `
+        select age_codigo, age_nombre, ucm_modulo, can_nombre, age_almacen
+        from w_cmovil_agentes t
+        where age_almacen = ${almId} 
+        and t.ucm_modulo=${ucmModulo}
+        `,
+      );
+      if (agente.length == 0) {
+        throw new HttpException('No existe agente', HttpStatus.BAD_REQUEST);
+      }
+
+      return plainToInstance(transformAgenteDto, agente);
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async obtenerDatosParaGraficarEnMapaPreventa(
+    postParamDataMapDto: postParamDataMapDto,
+  ) {
+    try {
+      let dataPendientesVisitar = '';
+      if (postParamDataMapDto.usuModulo == 2) {
+        console.log('Entraaa enm iiiiiiiiiiif');
+
+        dataPendientesVisitar = await this._usrcmovilService.query(
+          `
+          select * from V_MOVIL_PENDIENTE_ENT
+
+          WHERE AGE_CODIGO =${postParamDataMapDto.ageCodigo}
+          AND   CCO_ADESTINO = ${postParamDataMapDto.almId} 
+          AND   CCO_FECHA = TO_dATE('${postParamDataMapDto.fecha}','DD/MM/YYYY')
+          `,
+        );
+      } else {
+        console.log('entra elseeeeeeeeeee');
+
+        dataPendientesVisitar = await this._usrcmovilService.query(
+          `
+          SELECT *
+          FROM W_CMOVIL_PENDIENTES H
+          WHERE H.AGE_CODIGO =${postParamDataMapDto.ageCodigo}
+          AND   H.CCO_ADESTINO = ${postParamDataMapDto.almId} 
+          AND   H.CCO_FECHA = TO_dATE('${postParamDataMapDto.fecha}','DD/MM/YYYY')
+          `,
+        );
+      }
+
+      const dataVisitados = await this._usrcmovilService.query(
+        `
+        select * from w_cmovil_realizado t
+        WHERE T.LOG_COD_AGENTE =${postParamDataMapDto.ageCodigo}
+        AND   T.FECHA = TO_dATE('${postParamDataMapDto.fecha}','DD/MM/YYYY')
+        order by LOG_FECHA_CREA ASC
+        `,
+      );
+
+      return {
+        datosVisitadosMap: plainToInstance(
+          transformDataMapVisitadoDto,
+          dataVisitados,
+        ),
+        datosPendientesMap: plainToInstance(
+          transformDataMapPendienteDto,
+          dataPendientesVisitar,
+        ),
+      };
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  // async obtenerClientesVisitados(almId: number) {
+  //   try {
+  //     const agente = await this._usrcmovilService.query(
+  //       `
+  //       select age_codigo, age_nombre, ucm_modulo, can_nombre, age_almacen
+  //       from w_cmovil_agentes t
+  //       where age_almacen = ${almId}
+  //       `,
+  //     );
+  //     if (agente.length == 0) {
+  //       throw new HttpException('No existe agente', HttpStatus.BAD_REQUEST);
+  //     }
+
+  //     return plainToInstance(transformAgenteDto, agente);
+  //   } catch (error) {
+  //     throw new HttpException(error, HttpStatus.BAD_REQUEST);
+  //   }
+  // }
 }

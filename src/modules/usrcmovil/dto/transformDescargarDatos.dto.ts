@@ -1,7 +1,5 @@
 import { Expose, Type } from 'class-transformer';
 
-export interface DescargarData {}
-
 export class transformDescargarDatosDto {
   @Expose({ name: 'cmovilVersion' })
   @Type(() => String)
