@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ClienteService } from './cliente.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -18,4 +19,14 @@ export class ClienteController {
   async obtenerClientesAutoventa(@Param('cliRuta') cliRuta: number) {
     return await this.clienteService.obtenerClientesAutoventa(cliRuta);
   }
+
+  @Get('verificar')
+  async verificarCliente(@Query('cliRucCedula') cliRucCedula: string) {
+    return this.clienteService.verificarCliente(cliRucCedula);
+  }
+
+  // @Get('/excel/read')
+  // async leerExcel() {
+  //   return await this.clienteService.leerExcel();
+  // }
 }

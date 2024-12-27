@@ -1,4 +1,3 @@
-import { postSubirDataDto } from './../usrcmovil/dto/postSubirData.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

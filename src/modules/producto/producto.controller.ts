@@ -13,7 +13,6 @@ import { ProductoService } from './producto.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { postCPedidoInsertarDto } from './dto/postCPedidoInsertar.dto';
 import { postDPedidoInsertarDto } from './dto/postDPedidoInsertar.dto';
-import { postSubirDataDto } from '../usrcmovil/dto/postSubirData.dto';
 import { postSubirDataRecargaDto } from './dto/postSubirDataRecarga.dto';
 
 @UsePipes(ValidationPipe)

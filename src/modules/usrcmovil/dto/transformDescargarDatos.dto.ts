@@ -1,4 +1,10 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
+
+export function ToFixed(decimals: number) {
+  return Transform(({ value }) => {
+    return parseFloat(value.toFixed(decimals));
+  });
+}
 
 export class transformDescargarDatosDto {
   @Expose({ name: 'cmovilVersion' })
@@ -10,6 +16,9 @@ export class transformDescargarDatosDto {
 
   @Type(() => Cliente)
   cliente: Cliente[];
+
+  @Type(() => Politica)
+  politica: Politica[];
 
   @Type(() => ListaPrecio)
   listaPrecio: ListaPrecio[];
@@ -47,8 +56,35 @@ export class transformDescargarDatosDto {
   @Type(() => CiudadParroquia)
   ciudadParroquia: CiudadParroquia[];
 
-  @Type(() => ComboMix)
-  comboMix: ComboMix[];
+  // @Type(() => ComboMix)
+  // comboMix: ComboMix[];
+
+  @Type(() => Componente)
+  componente: Componente[];
+
+  @Type(() => ComboPackC)
+  comboPackC: ComboPackC[];
+
+  @Type(() => ComboPackD)
+  comboPackD: ComboPackD[];
+
+  @Type(() => DescuentoEscaladoC)
+  descuentoEscaladoC: DescuentoEscaladoC[];
+
+  @Type(() => DescuentoEscaladoD)
+  descuentoEscaladoD: DescuentoEscaladoD[];
+
+  @Type(() => FacturaC)
+  facturaC: FacturaC[];
+
+  @Type(() => Secuencia)
+  secuencia: Secuencia[];
+
+  @Type(() => TipoPago)
+  tipoPago: TipoPago[];
+
+  @Type(() => Emisor)
+  emisor: Emisor[];
 }
 
 class Lq {
@@ -120,7 +156,51 @@ class Lq {
   @Type(() => Number)
   ccoNivelAprob: number;
 }
+class Politica {
+  @Expose({ name: 'ID' })
+  @Type(() => String)
+  id: string;
 
+  @Expose({ name: 'POL_EMPRESA' })
+  @Type(() => Number)
+  polEmpresa: number;
+
+  @Expose({ name: 'POL_CODIGO' })
+  @Type(() => Number)
+  polCodigo: number;
+
+  @Expose({ name: 'POL_NOMBRE' })
+  @Type(() => String)
+  polNombre: string;
+
+  @Expose({ name: 'POL_DESC_MAXIMO' })
+  @Type(() => Number)
+  polDescMaximo: number;
+
+  @Expose({ name: 'POL_PREVENTA' })
+  @Type(() => Number)
+  polPreventa: number;
+
+  @Expose({ name: 'POL_POLITICA' })
+  @Type(() => String)
+  polPolitica: string;
+
+  @Expose({ name: 'POL_NIVEL' })
+  @Type(() => Number)
+  polNivel: number;
+
+  @Expose({ name: 'POL_PORC_FINANC' })
+  @Type(() => Number)
+  polPorcFinanc: number;
+
+  @Expose({ name: 'POL_PORC_PRO_PAGO' })
+  @Type(() => Number)
+  polPorcProPago: number;
+
+  @Expose({ name: 'POL_GRUPO' })
+  @Type(() => Number)
+  polGrupo: number;
+}
 class Cliente {
   @Expose({ name: 'CLI_EMPRESA' })
   @Type(() => Number)
@@ -230,17 +310,45 @@ class Cliente {
   @Type(() => Number)
   cliRuta: number;
 
-  @Expose({ name: 'SIS_IMPUESTO_VENTA' })
-  @Type(() => Number)
-  sisImpuestoVenta: number;
+  // @Expose({ name: 'SIS_IMPUESTO_VENTA' })
+  // @Type(() => Number)
+  // sisImpuestoVenta: number;
 
-  @Expose({ name: 'IMP_PORCENTAJE' })
-  @Type(() => Number)
-  impPorcentaje: number;
+  // @Expose({ name: 'IMP_PORCENTAJE' })
+  // @Type(() => Number)
+  // impPorcentaje: number;
 
   @Expose({ name: 'CLI_SOLICITA_DATOS' })
   @Type(() => Number)
   cliSolicitaDatos: number | null;
+
+  @Expose({ name: 'CLI_POLITICAS' })
+  @Type(() => Number)
+  cliPoliticas: number | null;
+
+  @Expose({ name: 'CLI_POLITICAS_PMI' })
+  @Type(() => Number)
+  cliPoliticasPMI: number | null;
+
+  @Expose({ name: 'CLI_LISTAPRE_PMI' })
+  @Type(() => Number)
+  cliListaPMI: number | null;
+
+  @Expose({ name: 'CLI_CUPO_PMI' })
+  @Type(() => Number)
+  cliCupoPMI: number | null;
+
+  @Expose({ name: 'CLI_ILIMITADO_PMI' })
+  @Type(() => Number)
+  cliIlimitadoPMI: number | null;
+
+  @Expose({ name: 'CLI_TIPOCLI' })
+  @Type(() => Number)
+  cliTipoCli: number | null;
+
+  @Expose({ name: 'CCO_CODIGO' })
+  @Type(() => String)
+  ccoCodigo: string;
 }
 
 class ListaPrecio {
@@ -251,6 +359,10 @@ class ListaPrecio {
   @Expose({ name: 'DLP_LISTAPRE' })
   @Type(() => Number)
   dlpListPre: number;
+
+  @Expose({ name: 'LPR_NOMBRE' })
+  @Type(() => String)
+  lprNombre: string;
 
   @Expose({ name: 'DLP_PRODUCTO' })
   @Type(() => Number)
@@ -378,6 +490,14 @@ class Producto {
   @Expose({ name: 'GPR_TIPO_RENTA' })
   @Type(() => Number)
   gprTipoRenta: number;
+
+  @Expose({ name: 'PRO_CLASIFICACION' })
+  @Type(() => Number)
+  proClasificacion: number;
+
+  @Expose({ name: 'GPR_GRUPO' })
+  @Type(() => Number)
+  gprGrupo: number;
 }
 
 class ProductoCombo {
@@ -448,6 +568,10 @@ class ProductoCombo {
   @Expose({ name: 'PRO_TIPO_COMBO' })
   @Type(() => Number)
   proTipoCombo: number | null;
+
+  @Expose({ name: 'PRO_CLASIFICACION' })
+  @Type(() => Number)
+  proClasificacion: number | null;
 }
 
 class ListaDescuento {
@@ -508,6 +632,10 @@ class TipoVisita {
   @Expose({ name: 'TVI_SOLIDAT' })
   @Type(() => Number)
   tviSoliDat: number | null;
+
+  @Expose({ name: 'TVI_SUBTIPO' })
+  @Type(() => Number)
+  tviSubTipo: number;
 }
 
 class ListaNegraTelefono {
@@ -622,44 +750,374 @@ class CiudadParroquia {
   @Type(() => Number)
   ubiReporta: number;
 }
-class ComboMix {
-  @Expose({ name: 'PRO_CODIGO' })
-  @Type(() => Number)
-  proCodigo: number;
+// class ComboMix {
+//   @Expose({ name: 'PRO_CODIGO' })
+//   @Type(() => Number)
+//   proCodigo: number;
 
-  @Expose({ name: 'PRO_ID' })
+//   @Expose({ name: 'PRO_ID' })
+//   @Type(() => String)
+//   proId: string;
+
+//   @Expose({ name: 'PRO_NOMBRE' })
+//   @Type(() => String)
+//   proNombre: string;
+
+//   @Expose({ name: 'RUT_CODIGO' })
+//   @Type(() => Number)
+//   rutCodigo: number;
+
+//   @Expose({ name: 'RUT_ID' })
+//   @Type(() => String)
+//   rutId: string;
+
+//   @Expose({ name: 'ALM_CODIGO' })
+//   @Type(() => Number)
+//   almCodigo: number;
+
+//   @Expose({ name: 'ALM_NOMBRE' })
+//   @Type(() => String)
+//   almNombre: string;
+
+//   @Expose({ name: 'GCM_CANAL' })
+//   @Type(() => String)
+//   gcmCanal: string;
+
+//   @Expose({ name: 'GCM_PRINCIPAL' })
+//   @Type(() => Number)
+//   gcmPrincipal: number;
+
+//   @Expose({ name: 'GCM_COMBO' })
+//   @Type(() => Number)
+//   gcmCombo: number;
+// }
+
+class Componente {
+  @Expose({ name: 'UMD_ID' })
   @Type(() => String)
-  proId: string;
+  umdId: string;
+
+  @Expose({ name: 'UGP_USUARIO' })
+  @Type(() => Number)
+  ugpUsuario: number;
+
+  @Expose({ name: 'PRO_TIPO_COMBO' })
+  @Type(() => String)
+  proTipoCombo: string | null;
+
+  @Expose({ name: 'PRO_NOMBRE_PROMO' })
+  @Type(() => String)
+  proNombrePromo: string;
 
   @Expose({ name: 'PRO_NOMBRE' })
   @Type(() => String)
   proNombre: string;
 
-  @Expose({ name: 'RUT_CODIGO' })
+  @Expose({ name: 'PRO_IMPUESTO' })
   @Type(() => Number)
-  rutCodigo: number;
+  proImpuesto: number;
 
-  @Expose({ name: 'RUT_ID' })
+  @Expose({ name: 'PRO_ID_PROMO' })
   @Type(() => String)
-  rutId: string;
+  proIdPromo: string;
 
-  @Expose({ name: 'ALM_CODIGO' })
-  @Type(() => Number)
-  almCodigo: number;
-
-  @Expose({ name: 'ALM_NOMBRE' })
+  @Expose({ name: 'PRO_ID' })
   @Type(() => String)
-  almNombre: string;
+  proId: string;
 
-  @Expose({ name: 'GCM_CANAL' })
+  @Expose({ name: 'PRO_ENVASE' })
   @Type(() => String)
-  gcmCanal: string;
+  proEnvase: string | null;
 
-  @Expose({ name: 'GCM_PRINCIPAL' })
+  @Expose({ name: 'PRO_EMPRESA' })
   @Type(() => Number)
-  gcmPrincipal: number;
+  proEmpresa: number;
 
-  @Expose({ name: 'GCM_COMBO' })
+  @Expose({ name: 'PRO_CODIGO_PROMO' })
   @Type(() => Number)
-  gcmCombo: number;
+  proCodigoPromo: number;
+
+  @Expose({ name: 'PRO_CODIGO' })
+  @Type(() => Number)
+  proCodigo: number;
+
+  @Expose({ name: 'COM_UNIDAD' })
+  @Type(() => Number)
+  comUnidad: number;
+
+  @Expose({ name: 'COM_PROMOCION' })
+  @Type(() => Number)
+  comPromocion: number;
+
+  @Expose({ name: 'COM_CANTIDAD' })
+  @Type(() => Number)
+  comCantidad: number;
+}
+
+class ComboPackC {
+  @Expose({ name: 'COP_EMPRESA' })
+  @Type(() => Number)
+  copEmpresa: number;
+
+  @Expose({ name: 'COP_CODIGO' })
+  @Type(() => Number)
+  copCodigo: number;
+
+  @Expose({ name: 'COP_ID' })
+  @Type(() => String)
+  copId: string;
+
+  @Expose({ name: 'COP_NOMBRE' })
+  @Type(() => String)
+  copNombre: string;
+
+  @Expose({ name: 'COP_CANTIDADN' })
+  @Type(() => Number)
+  copCantidadN: number;
+
+  @Expose({ name: 'COP_CANTIDADP' })
+  @Type(() => Number)
+  copCantidadP: number;
+
+  @Expose({ name: 'COP_DESCUENTO' })
+  @Type(() => Number)
+  copDescuento: number;
+
+  @Expose({ name: 'COP_PORCENTAJE' })
+  @Type(() => Number)
+  copPorcentaje: number;
+
+  @Expose({ name: 'COP_INACTIVO' })
+  @Type(() => Number)
+  copInactivo: number;
+
+  @Expose({ name: 'COP_CANTIDADD' })
+  @Type(() => Number)
+  copCantidadD: number;
+
+  @Expose({ name: 'COP_COMBOVIRTUAL' })
+  @Type(() => Number)
+  copComboVirtual: number;
+
+  @Expose({ name: 'CTR_ALMACEN' })
+  @Type(() => Number)
+  ctrAlmacen: number;
+
+  @Expose({ name: 'CTR_RUTA' })
+  @Type(() => Number)
+  ctrRuta: number;
+
+  @Expose({ name: 'CTR_CANAL' })
+  @Type(() => Number)
+  ctrCanal: number;
+
+  @Expose({ name: 'COP_PROCLASIFICACION' })
+  @Type(() => Number)
+  copProClasificacion: number;
+
+  @Expose({ name: 'CTR_CANTIDAD' })
+  @Type(() => Number)
+  ctrCantidad: number;
+
+  @Expose({ name: 'CTR_TIPO_CP' })
+  @Type(() => Number)
+  ctrTipoCp: number;
+
+  @Expose({ name: 'COP_PORCENTAJE_N' })
+  @Type(() => Number)
+  copPorcentajeN: number;
+}
+
+class ComboPackD {
+  @Expose({ name: 'COD_EMPRESA' })
+  @Type(() => Number)
+  codEmpresa: number;
+
+  @Expose({ name: 'COD_CODIGO' })
+  @Type(() => Number)
+  codCodigo: number;
+
+  @Expose({ name: 'COD_TIPO' })
+  @Type(() => Number)
+  codTipo: number;
+
+  @Expose({ name: 'COD_COMPONE' })
+  @Type(() => Number)
+  codCompone: number;
+
+  @Expose({ name: 'COD_INACTIVO' })
+  @Type(() => Number)
+  codInactivo: number;
+
+  @Expose({ name: 'CTR_ALMACEN' })
+  @Type(() => Number)
+  ctrAlmacen: number;
+
+  @Expose({ name: 'COD_GRUPO' })
+  @Type(() => Number)
+  codGRupo: number;
+}
+
+class DescuentoEscaladoC {
+  @Expose({ name: 'LDR_EMPRESA' })
+  @Type(() => Number)
+  ldrEmpresa: number;
+
+  @Expose({ name: 'LDR_RANGO' })
+  @Type(() => Number)
+  ldrRango: number;
+
+  @Expose({ name: 'LDR_TPRODUCTO' })
+  @Type(() => Number)
+  ldrTproducto: number;
+
+  @Expose({ name: 'LDR_PRODUCTO' })
+  @Type(() => Number)
+  ldrProducto: number;
+
+  @Expose({ name: 'LDR_TIPO_CLIENTE' })
+  @Type(() => Number)
+  ldrTipoCliente: number;
+
+  @Expose({ name: 'LDR_ALMACEN' })
+  @Type(() => Number)
+  ldrAlmacen: number;
+
+  @Expose({ name: 'LDR_LISTAPRE' })
+  @Type(() => Number)
+  ldrListaPre: number;
+
+  @Expose({ name: 'LDR_PROCLASIFICACION' })
+  @Type(() => Number)
+  ldrProClasificacion: number;
+
+  @Expose({ name: 'LDR_CODIGO' })
+  @Type(() => Number)
+  ldrCodigo: number;
+}
+
+class DescuentoEscaladoD {
+  @Expose({ name: 'CDS_EMPRESA' })
+  @Type(() => Number)
+  cdsEmpresa: number;
+
+  @Expose({ name: 'CDS_RANGO' })
+  @Type(() => Number)
+  cdsRango: number;
+
+  @Expose({ name: 'CDS_DESCRIPCION' })
+  @Type(() => String)
+  cdsDescripcion: string;
+
+  @Expose({ name: 'CDS_CANTIDAD_MIN' })
+  @Type(() => Number)
+  cdsCantidadMin: number;
+
+  @Expose({ name: 'CDS_CANTIDAD_MAX' })
+  @Type(() => Number)
+  cdsCantidadMax: number;
+
+  @Expose({ name: 'CDS_PORCENTAJE' })
+  @Type(() => Number)
+  cdsPorcentaje: number;
+
+  @Expose({ name: 'CDS_NIVEL' })
+  @Type(() => Number)
+  cdsNivel: number;
+}
+
+class FacturaC {
+  @Expose({ name: 'FACTURA' })
+  @Type(() => String)
+  factura: string;
+
+  @Expose({ name: 'CCO_FECHA' })
+  @Type(() => Date)
+  ccoFecha: Date;
+
+  @Expose({ name: 'TOT_TOTAL' })
+  @Type(() => Number)
+  @ToFixed(2)
+  totTotal: number;
+
+  @Expose({ name: 'DDO_PAGO' })
+  @Type(() => Number)
+  ddoPago: number;
+
+  @Expose({ name: 'DDO_MONTO' })
+  @Type(() => Number)
+  @ToFixed(2)
+  ddoMonto: number;
+
+  @Expose({ name: 'DDO_FECHA_VEN' })
+  @Type(() => Date)
+  ddoFechaVen: Date;
+
+  @Expose({ name: 'ABONO' })
+  @Type(() => Number)
+  @ToFixed(2)
+  abono: number;
+
+  @Expose({ name: 'SALDO' })
+  @Type(() => Number)
+  @ToFixed(2)
+  saldo: number;
+
+  @Expose({ name: 'DIAS' })
+  @Type(() => Number)
+  dias: number;
+
+  @Expose({ name: 'CCO_CODCLIPRO' })
+  @Type(() => Number)
+  ccoCodCliPro: number;
+
+  @Expose({ name: 'TIPO' })
+  @Type(() => String)
+  tipo: string;
+}
+
+class Secuencia {
+  @Expose({ name: 'DTI_CTI_CODIGO' })
+  @Type(() => Number)
+  dtiCtiCodigo: number;
+
+  @Expose({ name: 'DTI_NUMERO' })
+  @Type(() => Number)
+  dtiNumero: number;
+
+  @Expose({ name: 'DTI_SERIE' })
+  @Type(() => Number)
+  dtiSerie: number;
+}
+
+class TipoPago {
+  @Expose({ name: 'TPA_CODIGO' })
+  @Type(() => Number)
+  tpaCodigo: number;
+
+  @Expose({ name: 'TPA_ID' })
+  @Type(() => String)
+  tpaId: string;
+
+  @Expose({ name: 'TPA_NOMBRE' })
+  @Type(() => String)
+  tpaNombre: string;
+
+  @Expose({ name: 'TPA_DETALLE' })
+  @Type(() => Number)
+  tpaDetalle: number;
+
+  @Expose({ name: 'TPA_CONTABILIZA' })
+  @Type(() => Number)
+  tpaContabiliza: number;
+}
+
+class Emisor {
+  @Expose({ name: 'EMI_CODIGO' })
+  @Type(() => Number)
+  emiCodigo: number;
+
+  @Expose({ name: 'EMI_NOMBRE' })
+  @Type(() => String)
+  emiNombre: string;
 }

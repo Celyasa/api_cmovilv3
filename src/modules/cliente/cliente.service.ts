@@ -4,7 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { getClienteAutoventaDto } from './dto/getClienteAutoventa.dto';
-
+import { getVerificarClienteDto } from './dto/getVerificarCliente.dto';
+// import * as XLSX from 'xlsx';
 @Injectable()
 export class ClienteService {
   constructor(
@@ -25,6 +26,104 @@ export class ClienteService {
       );
       if (obtenerClientes.length > 0) {
         return plainToInstance(getClienteAutoventaDto, obtenerClientes);
+      } else {
+        throw new HttpException('No existe clientes', HttpStatus.BAD_REQUEST);
+      }
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async leerExcel() {
+    try {
+      // // const obtenerClientes = await this._clienteService.query(``);
+      // const filePath =
+      //   'C:\\Users\\analistaprogramador\\Downloads\\Desarrollo\\BackEnd\\api_cmovilv3\\src\\helpers\\base.xlsx';
+      // // Leer el archivo Excel
+      // const workbook = XLSX.readFile(filePath);
+      // const sheetName = workbook.SheetNames[0]; // Asumiendo que quieres leer la primera hoja
+      // const worksheet = workbook.Sheets[sheetName];
+
+      // // Cabeceras específicas que queremos obtener
+      // const specificHeaders = [
+      //   'Area',
+      //   'RUC',
+      //   'Customer Desc',
+      //   'Direccion',
+      //   'Limite de Credito',
+      //   'POLITICA',
+      //   'Lista de Precios',
+      //   'LISTA PRECIOS CELYASA',
+      //   'Telefono',
+      //   'MAIL',
+      //   'NOMBRECOM',
+
+      // ];
+      // const headerIndexes = {};
+
+      // // Obtener las cabeceras desde B5, C5, D5, etc.
+      // let col = 'B';
+      // while (worksheet[`${col}5`]) {
+      //   const header = worksheet[`${col}5`].v;
+      //   if (specificHeaders.includes(header)) {
+      //     headerIndexes[header] = col;
+      //   }
+      //   col = String.fromCharCode(col.charCodeAt(0) + 1); // Incrementar la columna
+      // }
+
+      // console.log('Cabeceras:', headerIndexes);
+
+      // // Leer los datos a partir de la fila 6
+      // const data = [];
+      // let row = 6;
+      // while (worksheet[`B${row}`]) {
+      //   const rowData = {};
+      //   specificHeaders.forEach((header) => {
+      //     const cellAddress = headerIndexes[header] + row;
+      //     rowData[header] = worksheet[cellAddress]
+      //       ? worksheet[cellAddress].v
+      //       : undefined;
+      //   });
+      //   data.push(rowData);
+      //   row++;
+      // }
+
+      // // Generar la consulta SQL INSERT ALL
+      // let sqlQuery = 'INSERT ALL\n';
+      // data.forEach((rowData) => {
+      //   sqlQuery += `INTO carga_cli_temp (RUTA, RUC_CEDULA, NOMBRE, DIRECCION, CUPO, POLITICA, LISTAPRECIO, TELEFONO1, TELEFONO2, MAIL, NOMBRECOM, SEXO, ESTADO_CIVIL, CIUDAD, PARROQUIA, LATITUD, LONGITUD, SEGMENTO) VALUES ('${rowData['Area']}', '${rowData['Territory']}', '${rowData['STATUS']}', '${rowData['RUC']}', '${rowData['Direccion']}')\n`;
+      // });
+      // sqlQuery += 'SELECT * FROM dual;';
+
+      // console.log('Consulta SQL:', sqlQuery);
+      return { ok: true };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  // SELECT cli_codigo
+  // FROM cliente cli
+  // WHERE cli.cli_empresa = 2
+  // AND cli.cli_tipo in (1,5)
+  // AND cli.cli_ruc_cedula like '0702223843%'
+
+  async verificarCliente(cliRucCedula: string) {
+    try {
+      const obtenerClientes = await this._clienteService.query(
+        `
+        SELECT cli_codigo, r.rut_id ruta_1, r.rut_id ruta_2
+        FROM cliente cli
+        left join ruta r on r.rut_codigo = cli.cli_ruta and r.rut_empresa = cli.cli_empresa
+        left join ruta p on p.rut_codigo = cli.cli_ruta_p2 and p.rut_empresa = cli.cli_empresa
+        WHERE cli.cli_empresa = 2
+        AND cli.cli_tipo in (1,5)
+        AND cli.cli_ruc_cedula like '${cliRucCedula.slice(0, 10)}%'
+     `,
+      );
+      if (obtenerClientes.length > 0) {
+        return plainToInstance(getVerificarClienteDto, obtenerClientes);
       } else {
         throw new HttpException('No existe clientes', HttpStatus.BAD_REQUEST);
       }
