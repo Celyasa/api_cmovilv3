@@ -130,7 +130,7 @@ export class UsrcmovilService {
             PARROQUIA,CIUDAD,CLI_RUTA,
             --IMP_PORCENTAJE,
             CLI_SOLICITA_DATOS, CLI_POLITICAS, CLI_POLITICAS_PMI, CLI_LISTAPRE_PMI, CLI_CUPO_PMI, CLI_ILIMITADO_PMI,
-            CLI_TIPOCLI, '' as CCO_CODIGO
+            CLI_TIPOCLI, '' as CCO_CODIGO,1 as CLI_ENVIO
             from cm2_clientes_total t where t.cli_agente=${token.ucmAgeCodigo} 
             and t.cli_ruta in (${rutas})`,
           );
@@ -167,7 +167,7 @@ export class UsrcmovilService {
             ubi.ubi_nombre as CIUDAD,
             cli.CLI_RUTA, cli.CLI_SOLICITA_DATOS, 
             cli.CLI_POLITICAS, cli.CLI_POLITICAS_PMI, cli.CLI_LISTAPRE_PMI, cli.CLI_CUPO_PMI, cli.CLI_ILIMITADO_PMI, cli.CLI_TIPOCLI
-            , TO_CHAR(cco.cco_cie_comproba) cco_codigo 
+            , TO_CHAR(cco.cco_cie_comproba) cco_codigo, 1 as CLI_ENVIO 
             from ccomproba cco 
             inner join cliente cli on (cli.cli_codigo = cco.cco_codclipro and cli.cli_empresa = cco.cco_empresa)   
             inner join ubicacion ubi on (cli.cli_ciudad = ubi.ubi_codigo and ubi.ubi_empresa = cli.cli_empresa)
@@ -190,7 +190,7 @@ export class UsrcmovilService {
             ubi.ubi_nombre as CIUDAD,
             cli.CLI_RUTA, cli.CLI_SOLICITA_DATOS, 
             cli.CLI_POLITICAS, cli.CLI_POLITICAS_PMI, cli.CLI_LISTAPRE_PMI, cli.CLI_CUPO_PMI, cli.CLI_ILIMITADO_PMI, cli.CLI_TIPOCLI
-            , TO_CHAR(cco.cdi_lq_codigo) cco_codigo from cartera_distribucion_renew cco 
+            , TO_CHAR(cco.cdi_lq_codigo) cco_codigo,  1 as CLI_ENVIO  from cartera_distribucion_renew cco 
             inner join cliente cli on (cli.cli_codigo = cco.cdi_cli_codigo and cli.cli_empresa = cco.cdi_empresa)   
             inner join ubicacion ubi on (cli.cli_ciudad = ubi.ubi_codigo and ubi.ubi_empresa = cli.cli_empresa)
             inner join catcliente cat on (cli.cli_categoria = cat.cat_codigo and cat.cat_empresa = cli.cli_empresa)
@@ -457,7 +457,7 @@ export class UsrcmovilService {
           select AST_GEN.NUMERO_COMPROBANTE(cco.CCO_EMPRESA, cco.CCO_CODIGO) factura, cco.cco_fecha, ROUND(tot.tot_total,2) as tot_total, ddo.ddo_pago, 
           ddo.ddo_monto, ddo.ddo_fecha_ven, ROUND(coalesce(sum(dca.dca_monto),0.00),2) abono, ROUND((ddo.ddo_monto - coalesce(sum(dca.dca_monto),0.00)),2) saldo,
           (trunc(SYSDATE) - ddo.ddo_fecha_ven) dias,
-          cco.cco_codclipro, case when pol.pol_dias_plazo = 0 then 'Contado' else 'Credito' end as tipo
+          cco.cco_codclipro, case when pol.pol_dias_plazo = 0 then 'Contado' else 'Credito' end as tipo, to_char(cco.CCO_CODIGO) CCO_CODIGO, ddo.ddo_doctran
           from ccomproba cco 
           inner join total tot on (cco.cco_codigo = tot.tot_cco_comproba and cco.cco_empresa = tot.tot_empresa) 
           inner join ccomfac cfa on (cco.cco_codigo = cfa.cfac_cco_comproba and cco.cco_empresa = cfa.cfac_empresa)
@@ -468,25 +468,29 @@ export class UsrcmovilService {
           where cco.cco_cie_comproba  in (${liquidaciones}) and cco.cco_tipodoc = 27 
           and cco.cco_empresa = 2 
           group by cco.CCO_EMPRESA, cco.CCO_CODIGO, cco.cco_fecha, ddo.ddo_pago, ddo.ddo_monto, ddo.ddo_fecha_ven, tot.tot_total, 
-          cco.cco_codclipro, pol.pol_dias_plazo 
+          cco.cco_codclipro, pol.pol_dias_plazo,cco.CCO_CODIGO, ddo.ddo_doctran 
           UNION
           SELECT DISTINCT AST_GEN.NUMERO_COMPROBANTE(cco.CCO_EMPRESA, cco.CCO_CODIGO) AS factura, cco.cco_fecha, ROUND(tot.tot_total,2) as tot_total, ddo.ddo_pago, ddo.ddo_monto, ddo.ddo_fecha_ven,  
           ROUND(SUM(COALESCE(dca.dca_monto, 0.00)),2) AS abono, ROUND((ddo.ddo_monto - SUM(COALESCE(dca.dca_monto, 0.00))),2) AS saldo, (TRUNC(SYSDATE) - ddo.ddo_fecha_ven) AS dias, cco.cco_codclipro,
-          'Cartera' as tipo FROM (select DISTINCT c.cco_codclipro, c.cco_empresa from ccomproba c where c.cco_cie_comproba in (${liquidaciones}) AND c.cco_empresa = 2 AND 
+          'Cartera' as tipo, to_char(cco.CCO_CODIGO) CCO_CODIGO, ddo.ddo_doctran 
+          FROM (select DISTINCT c.cco_codclipro, c.cco_empresa from ccomproba c where c.cco_cie_comproba in (${liquidaciones}) AND c.cco_empresa = 2 AND 
           c.cco_tipodoc = 27) cc INNER JOIN ddocumento ddo ON (cc.cco_codclipro = ddo.ddo_codclipro AND cc.cco_empresa = ddo.ddo_empresa) INNER JOIN ccomproba cco ON (
           cco.cco_codigo = ddo.ddo_cco_comproba AND cco.cco_empresa = ddo.ddo_empresa) INNER JOIN total tot ON (cco.cco_codigo = tot.tot_cco_comproba AND cco.cco_empresa = 
           tot.tot_empresa) LEFT JOIN dcancelacion dca ON (ddo.ddo_cco_comproba = dca.dca_ddo_comproba AND ddo.ddo_pago = dca.dca_ddo_pago AND ddo.ddo_empresa = 
-          dca.dca_empresa) WHERE ddo.ddo_cancelado = 0 AND cco.cco_cie_comproba not in (${liquidaciones}) AND cco.cco_tipodoc = 27 GROUP BY cco.CCO_EMPRESA, 
-          cco.CCO_CODIGO, cco.cco_fecha, ddo.ddo_pago, ddo.ddo_monto, ddo.ddo_fecha_ven, tot.tot_total, cco.cco_codclipro 
+          dca.dca_empresa) WHERE ddo.ddo_cancelado = 0 AND cco.cco_cie_comproba not in (${liquidaciones}) AND cco.cco_tipodoc = 27 
+          GROUP BY cco.CCO_EMPRESA, cco.CCO_CODIGO, cco.cco_fecha, ddo.ddo_pago, ddo.ddo_monto, ddo.ddo_fecha_ven, tot.tot_total, cco.cco_codclipro,
+          cco.CCO_CODIGO, ddo.ddo_doctran 
           union
           SELECT DISTINCT AST_GEN.NUMERO_COMPROBANTE(cco.CCO_EMPRESA, cco.CCO_CODIGO) AS factura, cco.cco_fecha, ROUND(tot.tot_total,2) as tot_total, ddo.ddo_pago, ddo.ddo_monto, ddo.ddo_fecha_ven, 
           ROUND(SUM(COALESCE(dca.dca_monto, 0.00)),2) AS abono, ROUND((ddo.ddo_monto - SUM(COALESCE(dca.dca_monto, 0.00))),2) AS saldo, (TRUNC(SYSDATE) - ddo.ddo_fecha_ven) AS dias, cco.cco_codclipro,
-          'Cartera' as tipo from cartera_distribucion_renew cc INNER JOIN ddocumento ddo ON (cc.cdi_cli_codigo = ddo.ddo_codclipro AND cc.cdi_empresa = ddo.ddo_empresa and 
+          'Cartera' as tipo, to_char(cco.CCO_CODIGO) CCO_CODIGO, ddo.ddo_doctran 
+          from cartera_distribucion_renew cc INNER JOIN ddocumento ddo ON (cc.cdi_cli_codigo = ddo.ddo_codclipro AND cc.cdi_empresa = ddo.ddo_empresa and 
           ddo.ddo_cancelado = 0) INNER JOIN ccomproba cco ON (cco.cco_codigo = ddo.ddo_cco_comproba AND cco.cco_empresa = ddo.ddo_empresa) INNER JOIN total tot ON (
           cco.cco_codigo = tot.tot_cco_comproba AND cco.cco_empresa = tot.tot_empresa) LEFT JOIN dcancelacion dca ON (ddo.ddo_cco_comproba = dca.dca_ddo_comproba AND 
           ddo.ddo_pago = dca.dca_ddo_pago AND ddo.ddo_empresa = dca.dca_empresa) where cc.cdi_empresa = 2 and cc.cdi_lq_codigo in (${liquidaciones}) AND 
-          cco.cco_cie_comproba not in (${liquidaciones}) AND cco.cco_tipodoc = 27 GROUP BY cco.CCO_EMPRESA, cco.CCO_CODIGO, cco.cco_fecha, ddo.ddo_pago, ddo.ddo_monto, 
-          ddo.ddo_fecha_ven, tot.tot_total, cco.cco_codclipro
+          cco.cco_cie_comproba not in (${liquidaciones}) AND cco.cco_tipodoc = 27 
+          GROUP BY cco.CCO_EMPRESA, cco.CCO_CODIGO, cco.cco_fecha, ddo.ddo_pago, ddo.ddo_monto, 
+          ddo.ddo_fecha_ven, tot.tot_total, cco.cco_codclipro,cco.CCO_CODIGO, ddo.ddo_doctran
           ORDER BY ddo_fecha_ven ASC
           `,
         );
@@ -609,9 +613,9 @@ export class UsrcmovilService {
             `
             SELECT AST_CMOVIL.RECIBE_PEDIDOS_F (
               ${pedido.ccaEmpresa},
-              TO_TIMESTAMP('${
+              TO_DATE(TO_CHAR(TO_TIMESTAMP('${
                 pedido.pedFechaFin
-              }', 'YYYY-MM-DD"T"HH24:MI:SS.FF'),
+              }', 'YYYY-MM-DD"T"HH24:MI:SS.FF'),'DD/MM/YYYY'),'DD/MM/YYYY'),
               ${pedido.ageCodigo},
               ${pedido.pedCliCodigo},
               '${pedido.pedLqCcoCodigo}',

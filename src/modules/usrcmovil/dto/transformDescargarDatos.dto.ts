@@ -349,6 +349,10 @@ class Cliente {
   @Expose({ name: 'CCO_CODIGO' })
   @Type(() => String)
   ccoCodigo: string;
+
+  @Expose({ name: 'CLI_ENVIO' })
+  @Type(() => Number)
+  cliEnvio: number;
 }
 
 class ListaPrecio {
@@ -1074,6 +1078,14 @@ class FacturaC {
   @Expose({ name: 'TIPO' })
   @Type(() => String)
   tipo: string;
+
+  @Expose({ name: 'CCO_CODIGO' })
+  @Type(() => String)
+  ccoCodigo: string;
+
+  @Expose({ name: 'DDO_DOCTRAN' })
+  @Type(() => String)
+  docDoctran: string;
 }
 
 class Secuencia {

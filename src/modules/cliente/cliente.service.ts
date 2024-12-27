@@ -122,10 +122,20 @@ export class ClienteService {
         AND cli.cli_ruc_cedula like '${cliRucCedula.slice(0, 10)}%'
      `,
       );
+      // if (obtenerClientes.length > 0) {
+      //   return plainToInstance(getVerificarClienteDto, obtenerClientes[0]);
+      // } else {
+      //   throw new HttpException('No existe clientes', HttpStatus.BAD_REQUEST);
+      // }
+
       if (obtenerClientes.length > 0) {
-        return plainToInstance(getVerificarClienteDto, obtenerClientes);
+        // return plainToInstance(getClienteAutoventaDto, obtenerClientes);
+        return {
+          ok: true,
+          clientes: plainToInstance(getVerificarClienteDto, obtenerClientes[0]),
+        };
       } else {
-        throw new HttpException('No existe clientes', HttpStatus.BAD_REQUEST);
+        return { ok: false };
       }
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
