@@ -226,6 +226,10 @@ class Cliente {
   @Type(() => String)
   cliDireccion: string;
 
+  @Expose({ name: 'CLI_REF_DIRECCION' })
+  @Type(() => String)
+  cliRefDireccion: string;
+
   @Expose({ name: 'CLI_TELEFONO1' })
   @Type(() => String)
   cliTelefono1: string;
@@ -266,6 +270,10 @@ class Cliente {
   @Type(() => Number)
   cliLongitud: number;
 
+  @Expose({ name: 'CLI_VENDE_LICOR' })
+  @Type(() => Number)
+  cliVendeLicor: number;
+
   @Expose({ name: 'CLI_SEGMENTACION' })
   @Type(() => Number)
   cliSegmentacion: number | null;
@@ -273,6 +281,14 @@ class Cliente {
   @Expose({ name: 'CLI_AGENTE' })
   @Type(() => Number)
   cliAgente: number;
+
+  @Expose({ name: 'CLI_SEXO' })
+  @Type(() => Number)
+  cliSexo: number;
+
+  @Expose({ name: 'CLI_ESTADO_CIVIL' })
+  @Type(() => Number)
+  cliEstadoCivil: number;
 
   @Expose({ name: 'TCL_NOMBRE' })
   @Type(() => String)
@@ -298,13 +314,25 @@ class Cliente {
   @Type(() => Number)
   cliIlimitado: number;
 
+  @Expose({ name: 'CLI_PARROQUIA' })
+  @Type(() => Number)
+  cliParroquia: number;
+
   @Expose({ name: 'PARROQUIA' })
   @Type(() => String)
   parroquia: string;
 
+  @Expose({ name: 'CLI_CIUDAD' })
+  @Type(() => Number)
+  cliCiudad: number;
+
   @Expose({ name: 'CIUDAD' })
   @Type(() => String)
   ciudad: string;
+
+  @Expose({ name: 'CLI_ORIGEN_INGRESOS' })
+  @Type(() => Number)
+  cliOrigenIngresos: number;
 
   @Expose({ name: 'CLI_RUTA' })
   @Type(() => Number)

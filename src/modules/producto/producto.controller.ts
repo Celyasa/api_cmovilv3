@@ -10,13 +10,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductoService } from './producto.service';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { postCPedidoInsertarDto } from './dto/postCPedidoInsertar.dto';
 import { postDPedidoInsertarDto } from './dto/postDPedidoInsertar.dto';
 import { postSubirDataRecargaDto } from './dto/postSubirDataRecarga.dto';
 
 @UsePipes(ValidationPipe)
 @ApiTags('Producto')
+@ApiBearerAuth()
 @Controller('producto')
 export class ProductoController {
   constructor(private readonly productoService: ProductoService) {}

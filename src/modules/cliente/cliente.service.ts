@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { getClienteAutoventaDto } from './dto/getClienteAutoventa.dto';
 import { getVerificarClienteDto } from './dto/getVerificarCliente.dto';
+import { posCrearClienteDto } from './dto/posCrearCliente.dto';
 // import * as XLSX from 'xlsx';
 @Injectable()
 export class ClienteService {
@@ -122,14 +123,31 @@ export class ClienteService {
         AND cli.cli_ruc_cedula like '${cliRucCedula.slice(0, 10)}%'
      `,
       );
-      // if (obtenerClientes.length > 0) {
-      //   return plainToInstance(getVerificarClienteDto, obtenerClientes[0]);
-      // } else {
-      //   throw new HttpException('No existe clientes', HttpStatus.BAD_REQUEST);
-      // }
 
       if (obtenerClientes.length > 0) {
-        // return plainToInstance(getClienteAutoventaDto, obtenerClientes);
+        return {
+          ok: true,
+          clientes: plainToInstance(getVerificarClienteDto, obtenerClientes[0]),
+        };
+      } else {
+        return { ok: false };
+      }
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async crearCliente(posCrearClienteDto: [posCrearClienteDto]) {
+    try {
+      console.log(posCrearClienteDto);
+
+      const obtenerClientes = await this._clienteService.query(
+        `
+
+        `,
+      );
+
+      if (obtenerClientes.length > 0) {
         return {
           ok: true,
           clientes: plainToInstance(getVerificarClienteDto, obtenerClientes[0]),

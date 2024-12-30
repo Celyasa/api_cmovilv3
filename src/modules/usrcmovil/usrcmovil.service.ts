@@ -123,11 +123,11 @@ export class UsrcmovilService {
           cliente = await this._usrcmovilService.query(
             ` 
             select 
-            CLI_EMPRESA, CLI_CODIGO, CLI_ID, CLI_NOMBRE, CLI_RUC_CEDULA,
-            CLI_DIRECCION,CLI_TELEFONO1,CLI_TELEFONO2, CLI_TELEFONO3, CLI_MAIL,CLI_BLOQUEO,
-            CLI_CUPO, CLI_ORDEN, CLI_NOMBRECOM, CLI_LATITUD, CLI_LONGITUD, CLI_SEGMENTACION,
-            CLI_AGENTE,TCL_NOMBRE,CCL_NOMBRE,CAT_NOMBRE,POL_NOMBRE,CLI_LISTAPRE,CLI_ILIMITADO,
-            PARROQUIA,CIUDAD,CLI_RUTA,
+            CLI_EMPRESA, CLI_CODIGO, CLI_ID, CLI_NOMBRE, CLI_RUC_CEDULA,CLI_DIRECCION,
+            cli_ref_direccion, CLI_TELEFONO1,CLI_TELEFONO2, CLI_TELEFONO3, CLI_MAIL,CLI_BLOQUEO,
+            CLI_CUPO, CLI_ORDEN, CLI_NOMBRECOM, CLI_LATITUD, CLI_LONGITUD, CLI_VENDE_LICOR, CLI_SEGMENTACION,
+            CLI_AGENTE,cli_sexo, cli_estado_civil, TCL_NOMBRE,CCL_NOMBRE,CAT_NOMBRE,POL_NOMBRE,CLI_LISTAPRE,CLI_ILIMITADO,
+            CLI_PARROQUIA, PARROQUIA,CLI_CIUDAD,CIUDAD,CLI_RUTA,CLI_ORIGEN_INGRESOS,
             --IMP_PORCENTAJE,
             CLI_SOLICITA_DATOS, CLI_POLITICAS, CLI_POLITICAS_PMI, CLI_LISTAPRE_PMI, CLI_CUPO_PMI, CLI_ILIMITADO_PMI,
             CLI_TIPOCLI, '' as CCO_CODIGO,1 as CLI_ENVIO
@@ -155,16 +155,18 @@ export class UsrcmovilService {
         if (liquidaciones.length > 0 && liquidaciones != null) {
           cliente = await this._usrcmovilService.query(
             ` 
-            select distinct cli.CLI_EMPRESA, cli.CLI_CODIGO, cli.CLI_ID, cli.CLI_NOMBRE, cli.CLI_RUC_CEDULA, cli.CLI_DIRECCION, cli.CLI_TELEFONO1,
+            select distinct cli.CLI_EMPRESA, cli.CLI_CODIGO, cli.CLI_ID, cli.CLI_NOMBRE, cli.CLI_RUC_CEDULA, cli.CLI_DIRECCION, cli.cli_ref_direccion, cli.CLI_TELEFONO1,
             cli.CLI_TELEFONO2, cli.CLI_TELEFONO3, cli.CLI_MAIL, cli.CLI_BLOQUEO, cli.CLI_CUPO, cli.CLI_ORDEN, cli.CLI_NOMBRECOM, 
-            cli.CLI_LATITUD, cli.CLI_LONGITUD, cli.CLI_SEGMENTACION, cli.CLI_AGENTE, 
+            cli.CLI_LATITUD, cli.CLI_LONGITUD,CLI.CLI_VENDE_LICOR, cli.CLI_SEGMENTACION, cli.CLI_AGENTE,cli.cli_sexo ,cli.cli_estado_civil,
             tcl.TCL_NOMBRE, 
             ccl.CCL_NOMBRE, 
             cat.CAT_NOMBRE, 
             pol.POL_NOMBRE, 
             cli.CLI_LISTAPRE, cli.CLI_ILIMITADO, 
-            ub.ubi_nombre as PARROQUIA, 
+            cli.CLI_PARROQUIA, ub.ubi_nombre as PARROQUIA, 
+            cli.CLI_CIUDAD,
             ubi.ubi_nombre as CIUDAD,
+            cli.CLI_ORIGEN_INGRESOS,
             cli.CLI_RUTA, cli.CLI_SOLICITA_DATOS, 
             cli.CLI_POLITICAS, cli.CLI_POLITICAS_PMI, cli.CLI_LISTAPRE_PMI, cli.CLI_CUPO_PMI, cli.CLI_ILIMITADO_PMI, cli.CLI_TIPOCLI
             , TO_CHAR(cco.cco_cie_comproba) cco_codigo, 1 as CLI_ENVIO 
@@ -173,21 +175,24 @@ export class UsrcmovilService {
             inner join ubicacion ubi on (cli.cli_ciudad = ubi.ubi_codigo and ubi.ubi_empresa = cli.cli_empresa)
             inner join catcliente cat on (cli.cli_categoria = cat.cat_codigo and cat.cat_empresa = cli.cli_empresa)
             inner join tipcliente tcl on (cli.cli_tipocli = tcl.tcl_codigo and tcl.tcl_empresa = cli.cli_empresa)
+            inner join ddocumento ddo on (cli.cli_codigo = ddo.ddo_codclipro and cli.cli_empresa = ddo.ddo_empresa and ddo.ddo_cancelado = 0)
             left join ubicacion ub on (cli.cli_parroquia = ub.ubi_codigo and ub.ubi_empresa = cli.cli_empresa)
             left join politica pol on (cli.cli_politicas = pol.pol_codigo and pol.pol_empresa = cli.cli_empresa)
             left join cancliente ccl on (cli.cli_canal = ccl.ccl_codigo and ccl.ccl_empresa = cli.cli_empresa)
             where cco.cco_empresa = 2 and cco.cco_cie_comproba in (${liquidaciones}) and cco.cco_tipodoc = 27 
             union 
-            select distinct cli.CLI_EMPRESA, cli.CLI_CODIGO, cli.CLI_ID, cli.CLI_NOMBRE, cli.CLI_RUC_CEDULA, cli.CLI_DIRECCION, cli.CLI_TELEFONO1,
+            select distinct cli.CLI_EMPRESA, cli.CLI_CODIGO, cli.CLI_ID, cli.CLI_NOMBRE, cli.CLI_RUC_CEDULA, cli.CLI_DIRECCION, cli.cli_ref_direccion,cli.CLI_TELEFONO1,
             cli.CLI_TELEFONO2, cli.CLI_TELEFONO3, cli.CLI_MAIL, cli.CLI_BLOQUEO, cli.CLI_CUPO, cli.CLI_ORDEN, cli.CLI_NOMBRECOM, 
-            cli.CLI_LATITUD, cli.CLI_LONGITUD, cli.CLI_SEGMENTACION, cli.CLI_AGENTE, 
+            cli.CLI_LATITUD, cli.CLI_LONGITUD,CLI.CLI_VENDE_LICOR, cli.CLI_SEGMENTACION, cli.CLI_AGENTE, cli.cli_sexo, cli.cli_estado_civil,
             tcl.TCL_NOMBRE, 
             ccl.CCL_NOMBRE, 
             cat.CAT_NOMBRE, 
             pol.POL_NOMBRE, 
             cli.CLI_LISTAPRE, cli.CLI_ILIMITADO, 
-            ub.ubi_nombre as PARROQUIA, 
+            cli.CLI_PARROQUIA,ub.ubi_nombre as PARROQUIA,
+            cli.CLI_CIUDAD,
             ubi.ubi_nombre as CIUDAD,
+            cli.CLI_ORIGEN_INGRESOS,
             cli.CLI_RUTA, cli.CLI_SOLICITA_DATOS, 
             cli.CLI_POLITICAS, cli.CLI_POLITICAS_PMI, cli.CLI_LISTAPRE_PMI, cli.CLI_CUPO_PMI, cli.CLI_ILIMITADO_PMI, cli.CLI_TIPOCLI
             , TO_CHAR(cco.cdi_lq_codigo) cco_codigo,  1 as CLI_ENVIO  from cartera_distribucion_renew cco 
@@ -195,6 +200,7 @@ export class UsrcmovilService {
             inner join ubicacion ubi on (cli.cli_ciudad = ubi.ubi_codigo and ubi.ubi_empresa = cli.cli_empresa)
             inner join catcliente cat on (cli.cli_categoria = cat.cat_codigo and cat.cat_empresa = cli.cli_empresa)
             inner join tipcliente tcl on (cli.cli_tipocli = tcl.tcl_codigo and tcl.tcl_empresa = cli.cli_empresa)
+            inner join ddocumento ddo on (cli.cli_codigo = ddo.ddo_codclipro and cli.cli_empresa = ddo.ddo_empresa and ddo.ddo_cancelado = 0)
             left join ubicacion ub on (cli.cli_parroquia = ub.ubi_codigo and ub.ubi_empresa = cli.cli_empresa)
             left join politica pol on (cli.cli_politicas = pol.pol_codigo and pol.pol_empresa = cli.cli_empresa)
             left join cancliente ccl on (cli.cli_canal = ccl.ccl_codigo and ccl.ccl_empresa = cli.cli_empresa)
