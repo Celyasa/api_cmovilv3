@@ -39,7 +39,7 @@ export class UsrcmovilService {
       let obtenerLQ;
       if (token.ucmModulo == 1) {
         consulta =
-          ' and C.CCO_NIVEL_APROB=0 and SYSDATE BETWEEN c.CCO_FECHA AND c.CCO_FECHAFIN';
+          ' and C.CCO_NIVEL_APROB=0 --and SYSDATE BETWEEN c.CCO_FECHA AND c.CCO_FECHAFIN';
       } else if (token.ucmModulo == 2) {
         consulta = `
         select ${token.ucmModulo} as ucm_modulo,
